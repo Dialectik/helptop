@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    //удаление пользователя
+	public function remove()
+	{
+		//$this->removeAvatar();  //удаление аватара перед удалением пользов.
+		$this->delete();
+	}
+    
+    
+    
+    
 }

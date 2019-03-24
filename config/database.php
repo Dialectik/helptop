@@ -133,6 +133,14 @@ return [
             'database' => env('REDIS_CACHE_DB', 1),
         ],
 
+    	
+    	//Возможно это лишняя запись и ее стоит удалить, но ТОЛЬКО если будут работать ОЧЕРЕДИ
+    	'driver' => 'redis',
+		'connection' => 'default',
+		'queue' => '{default}',
+		'retry_after' => 90,
+    	
+    
     ],
 
 ];

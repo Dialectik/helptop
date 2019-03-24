@@ -39,6 +39,8 @@
                 right: 10px;
                 top: 18px;
             }
+            
+         
 
             .content {
                 text-align: center;
@@ -57,6 +59,8 @@
                 text-decoration: none;
                 text-transform: uppercase;
             }
+            
+            
 
             .m-b-md {
                 margin-bottom: 30px;
@@ -64,17 +68,39 @@
         </style>
     </head>
     <body>
+        <div class="links">
+            @include('locales.locale')
+        </div>
         
         <div class="flex-center position-ref full-height">
+            
+            
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ Klisl\Locale\LocaleMiddleware::getLocale() .'/home' }}">
+                        	@lang('auth.home')
+                        </a>
+                        
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                            @lang('auth.logout')
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        
                     @else
-                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('login') }}">
+                        	@lang('auth.login')
+                        </a>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('register') }}">
+                            	@lang('auth.register')
+                            </a>
                         @endif
                     @endauth
                 </div>

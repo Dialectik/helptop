@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Events\Auth\UserRegistered;
+use App\Jobs\DeleteUnactivatedAccount;
 
 class RegisterController extends Controller
 {
@@ -24,11 +27,15 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
+     * Переменная для генерации временного пароля
+     */
+    protected $generatedPassword;
+    /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -50,8 +57,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],            
         ]);
     }
 
@@ -63,10 +69,34 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $this->password = str_random(8);
+        
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($this->password),
         ]);
     }
+    
+    protected function registered(Request $request, $user)
+	{
+	    
+	    $id = $user->id;
+	    //Отправка задачи по удалению не активированного пользователя в отложенную очередь
+	    $job = (new DeleteUnactivatedAccount($id))->delay(60*60*24);
+	    $this->dispatch($job);
+	    
+	    //Инициация события отправки сообщения пользователю с временным паролем
+	    event(new UserRegistered($user, $this->password));
+	    
+	    $this->guard()->logout();
+	    
+	    
+	    
+
+	    return redirect($this->redirectPath())
+	        ->with('status', 'Дякуємо за реєстрацію! Пароль надіслано на вашу електронну пошту (Thanks for registration! The password has been sent to your email)');
+	}
+    
+    
 }
