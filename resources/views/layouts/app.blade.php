@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('welcome') }}">
                     {{ config('app.name', 'HelpTop') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -40,14 +40,17 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
+                            @if(Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">
+                                <a class="nav-link" href="{{ Klisl\Locale\LocaleMiddleware::getLocale() .'/login' }}">
                                 	@lang('auth.login')
                                 </a>
                             </li>
-                            @if (Route::has('register'))
+                            @endif
+                            
+                            @if(Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">
+                                    <a class="nav-link" href="/register">
                                     	@lang('auth.register')
                                     </a>
                                 </li>
@@ -64,10 +67,12 @@
                                                      document.getElementById('logout-form').submit();">
                                         @lang('auth.logout')
                                     </a>
-
+                                    
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+			                            @csrf
+			                        </form>
+
+                                    
                                 </div>
                             </li>
                         @endguest

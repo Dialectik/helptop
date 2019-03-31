@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>HelpTop</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -75,10 +75,10 @@
         <div class="flex-center position-ref full-height">
             
             
-            @if (Route::has('login'))
+            
                 <div class="top-right links">
-                    @auth
-                        <a href="{{ Klisl\Locale\LocaleMiddleware::getLocale() .'/home' }}">
+                    @if(Auth::check())
+                        <a href="{{ route('home') }}">
                         	@lang('auth.home')
                         </a>
                         
@@ -87,24 +87,26 @@
                                          document.getElementById('logout-form').submit();">
                             @lang('auth.logout')
                         </a>
-
+                        
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>
+
+                        
                         
                     @else
-                        <a href="{{ route('login') }}">
+                        <a href="{{ Klisl\Locale\LocaleMiddleware::getLocale() .'/login' }}">
                         	@lang('auth.login')
                         </a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">
+
+                            <a href="{{ Klisl\Locale\LocaleMiddleware::getLocale() .'/register' }}">
                             	@lang('auth.register')
                             </a>
-                        @endif
-                    @endauth
+
+                    @endif
                 </div>
-            @endif
+            
 
             <div class="content">
                 <div class="title m-b-md">
