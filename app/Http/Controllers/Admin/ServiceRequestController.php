@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Carbon\Carbon;  //модуль конвертации дат
+use App\Service;
+use App\Section;
+use App\Category;
+use App\Kind;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class ServiceRequestController extends Controller
+{
+    public function _request(Request $request)
+    {
+		$services = Service::orderBy('date_on', 'desc')->take(100)->get();
+//        $services = Service::whereBetween('price_start', [1, 100])->take(100)->get();
+		
+		
+		return view('admin.services.request', [
+			'services'=>$services
+			
+			
+			]);
+	}
+}
