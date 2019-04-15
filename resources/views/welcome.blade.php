@@ -9,6 +9,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
+		
+
         <!-- Styles -->
         <style>
             html, body {
@@ -122,7 +124,10 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+                
             </div>
         </div>
     </body>
+    
+        
 </html>

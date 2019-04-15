@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Service;
 use \Storage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -31,17 +32,17 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * !!! НЕ УДАЛЯТЬ И НЕ КОММЕНТИТЬ !!! .
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
     
     //связь пользователя с услугами, которые он может предлагать на сайте
-    /*public function services()
+    public function services()
     {
 		return $this->hasMany(Service::class);
-	}*/
+	}
     
     //добавление нового пользователя
 	public static function add($fields)
