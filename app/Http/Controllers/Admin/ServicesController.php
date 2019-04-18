@@ -27,13 +27,13 @@ class ServicesController extends Controller
     public function create()
     {
         $sections = Section::all();
-        $date_on = date('Y-m-d H:i:s');
+        //$date_on = date('Y-m-d H:i:s');  не использовать - дата задается в виде с помощью js
         
 		
 
         return view('admin.services.create', [
-			'sections' => $sections,
-			'date_on' => $date_on
+			'sections' => $sections
+			
             
         ]);
     }

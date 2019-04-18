@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 //Маршруты для гостей сайта
 Route::group(['middleware' => 'guest', 'namespace'=>'Auth'], function(){
+	//Маршруты аутентификации
 	Route::get('/register', 'AuthController@registerForm')->name('register');
 	Route::post('/register', 'AuthController@register');
 	Route::get('/login', 'AuthController@loginForm')->name('login');
@@ -49,14 +50,14 @@ Route::group(['middleware' => 'guest', 'namespace'=>'Auth'], function(){
 	
 
 
-//POST запрос для отправки email письма пользователю для сброса пароля
-Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-//ссылка для сброса пароля (можно размещать в письме)
-Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
-//страница с формой для сброса пароля
-Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
-//POST запрос для сброса старого и установки нового пароля
-Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
+	//POST запрос для отправки email письма пользователю для сброса пароля
+	Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+	//ссылка для сброса пароля (можно размещать в письме)
+	Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+	//страница с формой для сброса пароля
+	Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+	//POST запрос для сброса старого и установки нового пароля
+	Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
 
 
 	
@@ -76,9 +77,28 @@ Route::post('password/reset', 'ResetPasswordController@reset')->name('password.u
 
 
 //Маршруты для админов
-/*Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'], function(){
+Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'], function(){
 	Route::get('/', 'DashboardController@index');
-	Route::resource('/categories', 'CategoriesController');
+	//Маршруты для создания и редактирования разделов, категорий и видов услуг
+	Route::resource('/sections', 'SectionsController', ['except' => ['update', 'destroy']]);
+	Route::post('/sections/update', 'SectionsUpdateController@update')->name('sections.update');
+	Route::post('/sections/destroy', 'SectionsDeleteController@destroy')->name('sections.destroy');
+	Route::resource('/categories', 'CategoriesController', ['except' => ['update', 'destroy']]);
+	Route::post('/categories/update', 'CategoriesUpdateController@update')->name('categories.update');
+	Route::post('/categories/destroy', 'CategoriesDeleteController@destroy')->name('categories.destroy');
+	Route::resource('/kinds', 'KindsController', ['except' => ['update', 'destroy']]);
+	Route::post('/kinds/update', 'KindsUpdateController@update')->name('kinds.update');
+	Route::post('/kinds/destroy', 'KindsDeleteController@destroy')->name('kinds.destroy');
+	//Маршруты для работы с пользователями
 	Route::resource('/users', 'UsersController');
-	Route::resource('/services', 'TextsController');	
-});*/
+	//Маршруты для работы с услугами
+	Route::resource('/services', 'ServicesController');
+	//Маршрут для запросов данных из таблицы услуг
+	Route::post('/services/request', 'ServiceRequestController@_request')->name('services.request');
+	
+	Route::get('/kinds/create/getcategory', 'LinkedListsController@getCategory');	
+	Route::get('/services/index/getcat', 'LinkedListsController@getCat');	
+	Route::get('/services/index/getkind', 'LinkedListsController@getKind');	
+});
+	
+	

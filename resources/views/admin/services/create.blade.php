@@ -73,9 +73,9 @@
             </div>
             
                  <!-- Date -->
-	        <div class="col-md-6">
+	        <div class="col-md-4">
 	            <div class="form-group">
-	              <label>Период на который публикуется услуга:</label>
+	              <label>Период публикации:</label>
 
 	              
 	                <select class="form-control select2" name="period" id="period" style="width: 100%;">
@@ -87,26 +87,39 @@
 			              	<option style="width: 100%" value="21">21 день</option>
 			              	<option style="width: 100%" value="28">28 дней</option>
 	               </select>
-	                
-	               <input type="hidden" class="form-control" name="date_on" id="date_on" value="{{$date_on}}"> 
-	              
-	              <!-- /.input group -->
+	      
 	            </div>
 			</div>
 						
-			<div class="col-md-6">
+			<div class="col-md-4">
 	            <div class="form-group">
-	              <label>Дата завершения публикации услуги:</label>
+	              <label>Дата старта публикации:</label>
 
 	              <div class="input-group date">
 	                <div class="input-group-addon">
 	                  <i class="fa fa-calendar"></i>
 	                </div>
-	                <input type="text" class="form-control" name="date_off" id="date_off" disabled>
+	                <input type="text" class="form-control" name="date_start" id="date_start" disabled>
+	                <input type="hidden" name="date_on" id="date_on">
 	              </div>
-	              <!-- /.input group -->
 	            </div>
             </div>
+            
+            <div class="col-md-4">
+	            <div class="form-group">
+	              <label>Дата завершения:</label>
+
+	              <div class="input-group date">
+	                <div class="input-group-addon">
+	                  <i class="fa fa-calendar"></i>
+	                </div>
+	                <input type="text" class="form-control" name="date_end" id="date_end" disabled>
+	                <input type="hidden" name="date_off" id="date_off">
+	              </div>
+	            </div>
+            </div>
+
+		
 
             <!-- checkbox -->
             <div class="form-group">
@@ -124,7 +137,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Краткое описание услуги</label>
               <p class="help-block">Опишите кратко предлагаемую услугу для представления ее в перечнях услуг при поиске</p>
-              <textarea name="description" id="" cols="30" rows="10" class="form-control" >{{old('description')}}</textarea>
+              <textarea name="description" id="description" cols="30" rows="10" class="form-control" >{{old('description')}}</textarea>
 	        </div>
 	      </div>
           
@@ -132,7 +145,7 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Полное описание услуги</label>
               <p class="help-block">Дайте исчерпывающе полное описание услуги для показа его на странице данной услуги</p>
-              <textarea name="content" id="" cols="30" rows="10" class="form-control" ></textarea>
+              <textarea name="content" id="content" cols="30" rows="10" class="form-control" ></textarea>
 	          </div>
 	        </div>
       </div>
@@ -173,6 +186,7 @@
 
                 }else{
                    $("#category_id").empty();
+                   $("#kind_id").empty();
                    
                 }
                }
@@ -210,20 +224,62 @@
     
     /*Связь конечной даты с установленным периодом публикации услуги*/   
 	$('#period').change(function(){
-		var period_t = $(this).val();
-		/*var date_on = $("#date_off").val();*/
-		if(period){
-			$("#date_off").prop("enabled", true);
-			$("#date_off").val(period_t);
-			$("#date_off").prop("disabled", true);
-		}else{
-			$("#date_off").prop("enabled", true);
-			$("#date_off").empty();
-			$("#date_off").prop("disabled", true);
+		
+		function formatDate(date) {
+			var dd = date.getDate();
+			if (dd < 10) dd = '0' + dd;
+
+			var mm = date.getMonth() + 1;
+			if (mm < 10) mm = '0' + mm;
+
+			var yy = date.getFullYear();
+			if (yy < 10) yy = '0' + yy;
+			
+			var hh = date.getHours();
+			if (hh < 10) hh = '0' + hh;
+			
+			var mi = date.getMinutes();
+			if (mi < 10) mi = '0' + mi;
+			
+			var ss = date.getSeconds();
+			if (ss < 10) ss = '0' + ss;			
+
+			return dd + '.' + mm + '.' + yy + '  ' + hh + ':' + mi + ':' + ss;
 		}
 		
+		
+		function addDays(days) {
+		  var date_on = new Date();
+		  
+		  $("#date_start").prop("enabled", true);
+		  $("#date_start").val(formatDate(date_on));
+		  $("#date_start").prop("disabled", true);
+		  $("#date_on").val(date_on);
+		  
+		  var ms = date_on.getTime() + 86400000 * days;
+		  var result = new Date(ms);
+		  
+		  return result;
+		}
+		
+		var period_t = $(this).val();
+		var date_off = addDays(period_t);
+		
+		if(period){
+			$("#date_end").prop("enabled", true);
+			$("#date_end").val(formatDate(date_off));
+			$("#date_end").prop("disabled", true);
+			$("#date_off").val(date_off);			
+		}else{
+			$("#date_end").prop("enabled", true);
+			$("#date_end").empty();
+			$("#date_end").prop("disabled", true);
+			
+		}
+
+		
 	});
-	
+
 	       
 </script>
 @endpush

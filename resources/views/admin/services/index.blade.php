@@ -152,6 +152,7 @@
 
                 }else{
                    $("#category_id").empty();
+                   $("#kind_id").empty();
                 }
                }
             });

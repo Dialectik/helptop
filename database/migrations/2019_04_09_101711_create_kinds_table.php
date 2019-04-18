@@ -15,10 +15,11 @@ class CreateKindsTable extends Migration
     {
         Schema::create('kinds', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title');
-            $table->string('slug');
-            $table->integer('section_id');   //id раздела услуг
-            $table->integer('category_id');   //id категории услуги
+            $table->string('title');			//Наименование вида
+            $table->string('slug');				//Слаг вида
+            $table->string('code');				//Код вида
+            $table->integer('section_id');		//id раздела услуг
+            $table->integer('category_id');		//id категории услуги
             $table->timestamps();
         });
     }
