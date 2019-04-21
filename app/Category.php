@@ -9,7 +9,7 @@ class Category extends Model
 {
     use Sluggable;
     
-    protected $fillable = ['title', 'section_id'];//указываем массив каких данных сохранять в таблицу при создании новой категории
+    protected $fillable = ['title', 'code', 'section_id'];//указываем массив каких данных сохранять в таблицу при создании новой категории
     
     //РОДИТЕЛЬСКАЯ связь - создание связи категории с разделом
     public function section()
@@ -54,6 +54,24 @@ class Category extends Model
     public function getSectionID()
     {
         return $this->section != null ? $this->section->id : null;
+    }
+    
+    //вывод кода раздела для данной категории
+    public function getSectionCode()
+    {
+        return $this->section != null ? $this->section->code : null;
+    }
+    
+    //установить код раздела для данной категории
+    public function setCategoryCode($request)
+    {
+        return  $request->pre_code != null ? $request->pre_code . $request->code : null;
+    }
+    
+    //вывод коненой части кода категории
+    public function getCatEndCode()
+    {
+        return $this->code[2] . $this->code[3];
     }
     
 }

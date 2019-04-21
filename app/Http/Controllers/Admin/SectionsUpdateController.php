@@ -11,7 +11,8 @@ class SectionsUpdateController extends Controller
     public function update(Request $request)
     {
         $this->validate($request, [
-    		'title'	=>	'required' //обязательно
+    		'title'	=>	'required',              //обязательно
+    		'code' => 'required|min:11|numeric'   //обязательно значение, не менее 11, только цифры
     	]);
 
     	$section = Section::find($request->get('id'));

@@ -33,6 +33,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Название вида услуги</th>
+                  <th>Код</th>
                   <th>Категория</th>
                   <th>Раздел</th>
                   <th>Действия</th>
@@ -43,6 +44,7 @@
 					<tr>
 	                  <td>{{$kind->id}}</td>
 	                  <td>{{$kind->title}}</td>
+	                  <td>{{$kind->code}}</td>
 	                  <td>{{$kind->getCategoryTitle()}}</td>
 	                  <td>{{$kind->getSectionTitle()}}</td>
 	                  <td><a href="{{route('kinds.edit', $kind->id)}}" class="fa fa-pencil"></a>

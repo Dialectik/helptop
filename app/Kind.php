@@ -9,7 +9,7 @@ class Kind extends Model
 {
     use Sluggable;
     
-    protected $fillable = ['title', 'section_id', 'category_id'];//указываем массив каких данных сохранять в таблицу при создании нового вида услуг
+    protected $fillable = ['title', 'code', 'section_id', 'category_id'];//указываем массив каких данных сохранять в таблицу при создании нового вида услуг
     
     //РОДИТЕЛЬСКАЯ связь - создание связи вида услуг с разделом
     public function section()
@@ -71,6 +71,24 @@ class Kind extends Model
     public function getCategoryID()
     {
         return $this->category != null ? $this->category->id : null;
+    }
+    
+    //вывод кода категории для данного вида услуги
+    public function getCategoryCode()
+    {
+        return $this->category != null ? $this->category->code : null;
+    }
+    
+    //установить код вида услуг для данной категории
+    public function setKindCode($request)
+    {
+        return  $request->cat_code != null ? $request->cat_code . $request->code : null;
+    }
+    
+    //вывод коненой части кода вида услуг
+    public function getKindEndCode()
+    {
+        return $this->code[4] . $this->code[5];
     }
     
 }

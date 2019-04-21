@@ -34,6 +34,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Название раздела</th>
+                  <th>Код</th>
                   <th>Действия</th>
                 </tr>
                 </thead>
@@ -42,6 +43,7 @@
 					<tr>
 	                  <td>{{$section->id}}</td>
 	                  <td>{{$section->title}}</td>
+	                  <td>{{$section->code}}</td>
 	                  <td><a href="{{route('sections.edit', $section->id)}}" class="fa fa-pencil"></a>
 					  
 					  <form method="POST" action="{{ route('sections.destroy') }}">

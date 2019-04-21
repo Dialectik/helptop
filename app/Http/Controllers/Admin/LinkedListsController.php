@@ -32,4 +32,19 @@ class LinkedListsController extends Controller
 		
 		return response()->json($categories);
 	}
+	
+	
+	public function getSectionCode(Request $request)
+	{
+		$sectionCode = Section::where('id', $request->section_id)->value('code');
+		return response()->json($sectionCode);
+	}
+	
+	public function getCategoryCode(Request $request)
+	{
+		$categoryCode = Category::where('id', $request->category_id)->value('code');
+		return response()->json($categoryCode);
+	}
+	
+	
 }

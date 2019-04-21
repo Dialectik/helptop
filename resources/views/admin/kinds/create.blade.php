@@ -55,11 +55,26 @@
 		              <label>Категория</label>
 		              <p><small>Выберите категорию к которой относится ВИД</small></p>
 			              <select class="form-control select2" name="category_id" id="category_id" style="width: 100%;">
-				              	
-				              	
 			              </select>
 		            </div>
 		        </div>
+		     </div>
+		     
+		     <div class="box-body">   
+		         <div class="col-md-1">  
+			        <div class="form-group">
+			          <label for="exampleInputEmail1">Код (категории) </label>
+			          <input type="text" class="form-control" id="c_code" placeholder="XXYY" name="c_code" disabled>
+			          <input type="hidden" class="form-control" id="cat_code" name="cat_code">
+			        </div>
+			     </div>
+			     <div class="col-md-1">  
+			        <div class="form-group">
+			          <label for="exampleInputEmail1">- (вида услуги) </label>
+			          <input type="text" class="form-control" id="code" placeholder="ZZ" name="code" maxlength="2" minlength="2">
+			        </div>
+			     </div>
+			     
 		    
 		    </div>
 		    
@@ -86,29 +101,90 @@
   	$('#section_id').change(function(){
         var sectionID = $(this).val();    
         if(sectionID){
-            
+            /* Связанные списки разделов, категорий */
             $.ajax({
                type:'GET',
                url: "{{url('/admin/kinds/create/getcategory')}}?section_id="+sectionID,
                success:function(res){               
                 if(res){
                     $("#category_id").empty();
-                    $("#category_id").append('<option>- выберете категорию -</option>');
+                    $("#category_id").append('<option value="">- выберете категорию -</option>');
                     $.each(res,function(key,value){
                         $("#category_id").append('<option value="'+key+'">'+value+'</option>');
                     });
 
                 }else{
-                   $("#category_id").empty();
+                   	$("#category_id").empty();
+                   	$("#kind_id").empty();
+                   	
+                   	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+                	$("#c_code").empty();
+                	$("#cat_code").empty();
+					$("#c_code").prop("disabled", true);  /* Блокировка инпута */
                 }
                }
             });
         }else{
             $("#category_id").empty();
             $("#kind_id").empty();
+            
+            $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+            $("#c_code").empty();
+            $("#cat_code").val('');
+            $("#c_code").val('');
+            $("#c_code").prop("disabled", true);  /* Блокировка инпута */
         }      
-       });
+    });
+       
+    /* Автоматический ввод кода для выбранной категории */   
+    $('#category_id').change(function(){
+        var categoryID = $(this).val();    
+        if(categoryID){
+            
+            $.ajax({
+               type:'GET',
+               url: "{{url('/admin/kinds/create/getcategorycode')}}?category_id="+categoryID,
+               success:function(res){               
+                if(res){
+                    $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+                    $("#c_code").empty();                 /* Очистка инпута */
+                    $("#cat_code").val(res);
+                    $("#c_code").val(res);
+                    $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+                }else{
+                    $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+                    $("#c_code").empty();
+                    $("#cat_code").empty();
+                    $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+                }
+               }
+            });
+        }else{
+            $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+            $("#c_code").empty();
+            $("#cat_code").val('');
+            $("#c_code").val('');
+            $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+        }      
+    });   
         
         
+</script>
+
+<!-- Ограничение поля ввода кода вида ДВУМЯ ЦИФРАМИ -->
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$.fn.forceNumbericOnly = function() {
+			return this.each(function()
+			{
+			    $(this).keydown(function(e)
+			    {
+			        var key = e.charCode || e.keyCode || 0;
+			        return ( key == 8 || key == 9 || key == 46 ||(key >= 37 && key <= 40) ||(key >= 48 && key <= 57) ||(key >= 96 && key <= 105) || key == 107 || key == 109 || key == 173|| key == 61  ); 
+			        });
+				});
+			};
+		$('#code').forceNumbericOnly();
+	});
 </script>
 @endpush

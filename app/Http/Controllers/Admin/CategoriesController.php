@@ -24,11 +24,16 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
     	$this->validate($request, [
-    		'title'	=>	'required',          //обязательно
+    		'title'	=>	'required',              //обязательно значение
+    		'code' => 'required|min:1|numeric',   //обязательно значение, не менее 1, только цифры
     		'section_id' => 'required'
     	]);
 
-    	Category::create($request->all());
+		
+
+    	$category = Category::create($request->all());
+    	$category->code = $category->setCategoryCode($request);
+    	$category->save();
     	return redirect()->route('categories.index');
     }
        

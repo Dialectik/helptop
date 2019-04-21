@@ -251,9 +251,9 @@
 		function addDays(days) {
 		  var date_on = new Date();
 		  
-		  $("#date_start").prop("enabled", true);
+		  $("#date_start").prop("enabled", true);      /* Разблокировка инпута */
 		  $("#date_start").val(formatDate(date_on));
-		  $("#date_start").prop("disabled", true);
+		  $("#date_start").prop("disabled", true);     /* Блокировка инпута */
 		  $("#date_on").val(date_on);
 		  
 		  var ms = date_on.getTime() + 86400000 * days;
@@ -266,14 +266,14 @@
 		var date_off = addDays(period_t);
 		
 		if(period){
-			$("#date_end").prop("enabled", true);
+			$("#date_end").prop("enabled", true);      /* Разблокировка инпута */
 			$("#date_end").val(formatDate(date_off));
-			$("#date_end").prop("disabled", true);
+			$("#date_end").prop("disabled", true);     /* Блокировка инпута */
 			$("#date_off").val(date_off);			
 		}else{
-			$("#date_end").prop("enabled", true);
+			$("#date_end").prop("enabled", true);      /* Разблокировка инпута */
 			$("#date_end").empty();
-			$("#date_end").prop("disabled", true);
+			$("#date_end").prop("disabled", true);     /* Блокировка инпута */
 			
 		}
 

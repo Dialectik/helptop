@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');		//Наименование категории
             $table->string('slug');			//Слаг категории
-            $table->string('code');			//Код категории
+            $table->char('code', 8);		//Код категории
             $table->integer('section_id');  //id раздела услуг
             $table->timestamps();
         });

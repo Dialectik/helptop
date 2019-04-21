@@ -29,13 +29,18 @@ class KindsController extends Controller
     
     public function store(Request $request)
     {
+        
         $this->validate($request, [
     		'title'	=>	'required',          //обязательно
+    		'code' => 'required|min:1|numeric',   //обязательно значение, не менее 1, только цифры
     		'section_id' => 'required',
     		'category_id' => 'required'
     	]);
 
-    	Kind::create($request->all());
+    	$kind = Kind::create($request->all());
+    	$kind->code = $kind->setKindCode($request);
+    	$kind->save();
+    	
     	return redirect()->route('kinds.index');
     }
     

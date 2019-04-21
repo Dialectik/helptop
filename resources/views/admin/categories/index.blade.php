@@ -34,6 +34,7 @@
                 <tr>
                   <th>ID</th>
                   <th>Название категории</th>
+                  <th>Код</th>
                   <th>Раздел</th>
                   <th>Действия</th>
                 </tr>
@@ -43,6 +44,7 @@
 					<tr>
 	                  <td>{{$category->id}}</td>
 	                  <td>{{$category->title}}</td>
+	                  <td>{{$category->code}}</td>
 	                  <td>{{$category->getSectionTitle()}}</td>
 	                  <td><a href="{{route('categories.edit', $category->id)}}" class="fa fa-pencil"></a>
 					  

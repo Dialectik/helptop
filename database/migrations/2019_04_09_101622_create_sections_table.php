@@ -17,7 +17,7 @@ class CreateSectionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');		//Наименование раздела
             $table->string('slug');			//Слаг раздела
-            $table->string('code');			//Код раздела
+            $table->char('code', 4);			//Код раздела
             $table->timestamps();
         });
     }

@@ -22,7 +22,8 @@ class SectionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-    		'title'	=>	'required' //обязательно
+    		'title'	=>	'required',              //обязательно значение
+    		'code' => 'required|min:11|numeric'   //обязательно значение, не менее 11, только цифры
     	]);
 
     	Section::create($request->all());

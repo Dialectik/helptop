@@ -17,7 +17,7 @@ class CreateKindsTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');			//Наименование вида
             $table->string('slug');				//Слаг вида
-            $table->string('code');				//Код вида
+            $table->char('code', 16);				//Код вида
             $table->integer('section_id');		//id раздела услуг
             $table->integer('category_id');		//id категории услуги
             $table->timestamps();

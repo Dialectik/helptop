@@ -97,8 +97,13 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::post('/services/request', 'ServiceRequestController@_request')->name('services.request');
 	
 	Route::get('/kinds/create/getcategory', 'LinkedListsController@getCategory');	
+	Route::get('/kinds/edit/getcategory', 'LinkedListsController@getCategory');	
 	Route::get('/services/index/getcat', 'LinkedListsController@getCat');	
 	Route::get('/services/index/getkind', 'LinkedListsController@getKind');	
+	Route::get('/categories/create/getsectioncode', 'LinkedListsController@getSectionCode');	
+	Route::get('/categories/edit/getsectioncode', 'LinkedListsController@getSectionCode');
+	Route::get('/kinds/create/getcategorycode', 'LinkedListsController@getCategoryCode');
+	Route::get('/kinds/edit/getcategorycode', 'LinkedListsController@getCategoryCode');	
 });
 	
 	
