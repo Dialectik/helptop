@@ -16,12 +16,11 @@ class ServiceRequestController extends Controller
     {
 		$services = Service::orderBy('date_on', 'desc')->take(100)->get();
 //        $services = Service::whereBetween('price_start', [1, 100])->take(100)->get();
+		$date_offset = $request->get('date_offset');
 		
-		
-		return view('admin.services.request', [
-			'services'=>$services
-			
-			
-			]);
+		return view('admin.services.request')->with([
+		  'services' => $services,
+		  'date_offset' => $date_offset
+		]);
 	}
 }

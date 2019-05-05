@@ -2,6 +2,9 @@
 
 namespace App;
 
+use DateTime;
+use DateTimeZone;
+use Auth;
 use Carbon\Carbon;  //модуль конвертации дат
 use \Storage;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +19,7 @@ class Service extends Model
     
     //указание данных, которые будут добавляться при реализации функции add (добавление поста)
     //данный массив затем испол зуется методом fill при добавлении поста
-    protected $fillable = ['title', 'content', 'period', 'section_id', 'category_id', 'kind_id', 'bidding_type', 'price_start', 'description'];
+    protected $fillable = ['title', 'content', 'period', 'section_id', 'category_id', 'kind_id', 'bidding_type', 'price_start', 'description', 'product_code_id'];
     
     //создание связи услуги с разделом
     public function section()
@@ -77,8 +80,8 @@ class Service extends Model
 		
 		
 ///!!!*** СДЕЛАТЬ:  Функция формирования товарного кода услуги 'product_code_id'
-		
-		
+		 
+
 		
 //		if(isset($fields['user_id'])){
 //			$service->user_id = $fields['user_id'];
@@ -185,18 +188,53 @@ class Service extends Model
 	}
 	
 	
-	//Мутатор - изменяет фромат даты для записи в базу
-	public function setDateAttribute($value)
+	//Мутатор - изменяет фромат даты для записи в базу  (предположительно часовой пояс пользователя 'Europe/Kiev')
+	public function setDateOnAttribute($value, $offset)
 	{
-		$date = Carbon::createFromFormat('d/m/y', $value)->format('Y-m-d');
-		$this->attributes['date'] = $date;
+//		$date = Carbon::createFromFormat('d-m-Y H:i:s', $value, 'Europe/Kiev')->format('Y-m-d H:i:s');
+//		$dateUTC = Carbon::parse($date, 'UTC');
+		$date_offset = timezone_name_from_abbr("", $offset, 1);			//Находит ближайшую (указанную в кавычках - если не указано ищет по смещению) аббревиатуру часового пояса в формате 'Europe/Kiev' по смещению в секундах, "1" - учитывает переход на летнее время
+		$date = new DateTime($value, new DateTimeZone($date_offset));
+		$date->format('Y-m-d H:i:sP');
+		$date->setTimezone(new DateTimeZone('UTC'));
+		$this->attributes['date_on'] = $date;
+		$this->save();
+	}
+	public function setDateOffAttribute($value, $offset)
+	{
+//		$date = Carbon::createFromFormat('d-m-Y H:i:s', $value, 'Europe/Kiev')->format('Y-m-d H:i:s');
+//		$dateUTC = Carbon::parse($date, 'UTC');
+		$date_offset = timezone_name_from_abbr("", $offset, 1);			//Находит ближайшую (указанную в кавычках - если не указано ищет по смещению) аббревиатуру часового пояса в формате 'Europe/Kiev' по смещению в секундах, "1" - учитывает переход на летнее время
+		$date = new DateTime($value, new DateTimeZone($date_offset));
+		$date->format('Y-m-d H:i:sP');
+		$date->setTimezone(new DateTimeZone('UTC'));
+		$this->attributes['date_off'] = $date;
+		$this->save();
 	}
 	
 	//Аксессор - изменяет формат даты для вывода на странице
-	public function getDateAttribute($value)
+	public function getDateAttribute($value, $offset)
 	{
-		$date = Carbon::createFromFormat('Y-m-d', $value)->format('d/m/y');
-		return $date;
+		
+		//$value_s = date_format($value, 'Y-m-d H:i:s');
+		$date_offset = timezone_name_from_abbr("", $offset, 1);			//Находит ближайшую (указанную в кавычках - если не указано ищет по смещению) аббревиатуру часового пояса в формате 'Europe/Kiev' по смещению в секундах, "1" - учитывает переход на летнее время
+		
+//		$date = new DateTime($value, new DateTimeZone('UTC'));
+//		$date->format('d-m-Y H:i:sP');
+//		$date->setTimezone(new DateTimeZone($date_offset));
+		$date = new Carbon($value, 'UTC');
+		$date->setTimezone($date_offset);
+		//$dt = Carbon::parse($date);
+		//return $dt->day.'-'.$dt->month.'-'.$dt->year.'  '.$dt->hour.':'.$dt->minute.':'.$dt->second;
+		$dt = Carbon::createFromFormat('Y-m-d H:i:s', $date, $date_offset)->format('d-m-Y H:i:s ');
+		return $dt;
+	}
+	
+	
+	//вывод названия раздела
+    public function getSectionTitle()
+    {
+		return $this->section != null ? $this->section->title : null;
 	}
 	
 	//Вывод категории услуги
@@ -212,6 +250,14 @@ class Service extends Model
     {
         return $this->category != null ? $this->category->id : null;
     }
+    
+    
+    //вывод названия вида услуги
+    public function getKindTitle()
+    {
+		return $this->kind != null ? $this->kind->title : null;
+	}
+    
     
    
     

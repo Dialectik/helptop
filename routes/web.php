@@ -99,7 +99,13 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::get('/kinds/create/getcategory', 'LinkedListsController@getCategory');	
 	Route::get('/kinds/edit/getcategory', 'LinkedListsController@getCategory');	
 	Route::get('/services/index/getcat', 'LinkedListsController@getCat');	
-	Route::get('/services/index/getkind', 'LinkedListsController@getKind');	
+	Route::get('/services/create/getcat', 'LinkedListsController@getCat');	
+	Route::get('/services/edit/getcat', 'LinkedListsController@getCat');	
+	Route::get('/services/index/getkind', 'LinkedListsController@getKind');		
+	Route::get('/services/create/getkind', 'LinkedListsController@getKind');
+	Route::get('/services/create/getsercode', 'LinkedListsController@getSerCode');	//определение кода товара	
+	Route::get('/services/edit/getkind', 'LinkedListsController@getKind');
+	Route::get('/services/edit/getsercode', 'LinkedListsController@getSerCode');	//определение кода товара	
 	Route::get('/categories/create/getsectioncode', 'LinkedListsController@getSectionCode');	
 	Route::get('/categories/edit/getsectioncode', 'LinkedListsController@getSectionCode');
 	Route::get('/kinds/create/getcategorycode', 'LinkedListsController@getCategoryCode');

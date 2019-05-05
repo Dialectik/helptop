@@ -9,6 +9,7 @@ use App\Category;
 use App\Kind;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\Admin\ProductCodeExcess;
 
 class ServicesController extends Controller
 {
@@ -48,21 +49,32 @@ class ServicesController extends Controller
     {
         $this->validate($request, [
             'title' =>'required',
+            'section_id' =>'required',
+            'category_id' =>'required',
+            'kind_id' =>'required',
+            'bidding_type' =>'required',
             'content'   =>  'required',
-            'date'  =>  'required',
+            'period'  =>  'required',
+            'date_on'  =>  'required',
+            'date_off'  =>  'required',
             'image' =>  'nullable|image'
         ]);
 
         $service = Service::add($request->all());
         $service->uploadImage($request->file('image'));
-//        $service->setCategory($request->get('category_id'));
         $service->toggleFeatured($request->get('is_featured'));
-        $date_on = new Carbon();
-        $period = $request->get('period');
-		$date_off = $date_on->addDays($period);
-		$this->date_on = $date_on;          //Установить дату начала публикации услуги
-		$this->date_off = $date_off;        //Установить дату окончания публикации услуги
-		$this->save();
+        
+        $service->setDateOnAttribute($request->get('date_on'), $request->get('date_offset'));
+        $service->setDateOffAttribute($request->get('date_off'), $request->get('date_offset'));
+        
+		
+		$serviceCodeEnd = substr($request->product_code_id, 6, 4) * 1;
+		if($serviceCodeEnd > 8000){
+				$kind_id = $request->kind_id;
+				$kind_title = Kind::where('id', $request->kind_id)->value('title');
+				event(new ProductCodeExcess($kind_id, $kind_title));
+			}
+		
 
         return redirect()->route('services.index');
     }
@@ -76,15 +88,12 @@ class ServicesController extends Controller
     public function edit($id)
     {
         $service = Service::find($id);
-        $categories = Category::pluck('title', 'id')->all();
-        $categorySer = Category::find($id);
-
-        return view('admin.services.edit', compact(
-            'categories',
-            'service',
-            'categorySer'
+        $sections = Section::all();
         
-        ));
+        return view('admin.services.edit', [
+        	'service' => $service,
+        	'sections' => $sections        	
+        ]);
 
     }
 
@@ -100,16 +109,31 @@ class ServicesController extends Controller
         $this->validate($request, [
             'title' =>'required',
             'content'   =>  'required',
-            'date'  =>  'required',
+            'period'  =>  'required',
+            'date_on'  =>  'required',
+            'date_off'  =>  'required',
             'image' =>  'nullable|image'
         ]);
-
+		
         $service = Service::find($id);
         $service->edit($request->all());
         $service->uploadImage($request->file('image'));
-        $service->setCategory($request->get('category_id'));
-        $service->toggleStatus($request->get('status'));
         $service->toggleFeatured($request->get('is_featured'));
+        
+        //Перезаписать даты начала публикации и конца в базе
+        $service->setDateOnAttribute($request->get('date_on'), $request->get('date_offset'));
+        $service->setDateOffAttribute($request->get('date_off'), $request->get('date_offset'));
+        
+        //Обновить категорию и вид услуг в базе, если в форме "edit" они менялись
+        if($request->category_id_v != null & $request->category_id_v != $request->category_id){
+			$service->category_id = $request->category_id_v;
+		}
+        if($request->kind_id_v != null & $request->kind_id_v != $request->kind_id){
+			$service->kind_id = $request->kind_id_v;
+		}
+        
+        $service->slug = str_slug($service->title);               //Изменение слага перед сохранением по мотивам измененного названия
+    	$service->save();
 
         return redirect()->route('services.index');
     }

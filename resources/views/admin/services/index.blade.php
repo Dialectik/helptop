@@ -27,6 +27,10 @@
         </div>
         <div class="box-body">
           <div class="col-md-9">
+            
+            <!-- Скрытая передача смещения часового пояса пользователя относительно 'UTC'-->
+			<input type="hidden" name="date_offset" id="date_offset">
+            
             <div class="form-group">
               <label for="exampleInputEmail1">Название</label>
               <input type="text" class="form-control" id="services_title" placeholder="" name="title" value="{{old('title')}}">
@@ -113,7 +117,7 @@
           
           
           
-          
+		    
           
           
       </div>
@@ -189,4 +193,14 @@
        
        
 </script>
+
+<!-- Получение часового пояса пользователя -->
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		var date_on = new Date();
+		var offset = -1 * date_on.getTimezoneOffset() * 60;  /* Вычисление смещения часового пояса пользователя относительно 'UTC'.  На "-1" умножено, поскольку для западного отклонения получается отрицательное смещение */
+		$("#date_offset").val(offset);
+	});
+</script>
+
 @endpush

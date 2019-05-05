@@ -19,6 +19,7 @@ class CategoriesUpdateController extends Controller
     	$category = Category::find($request->get('id'));
     	$category->update($request->all());
     	$category->code = $category->setCategoryCode($request);
+    	$category->slug = str_slug($category->title);   //Изменение слага перед сохранением по мотивам измененного названия
     	$category->save();
     	return redirect()->route('categories.index');
     }

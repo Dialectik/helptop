@@ -55,7 +55,7 @@
 @endsection
 
 @push('scripts')
-<!-- Ограничение поля ввода кода раздела ДВУМЯ ЦИФРАМИ -->
+<!-- Ограничение поля ввода кода раздела ЦИФРАМИ -->
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		$.fn.forceNumbericOnly = function() {

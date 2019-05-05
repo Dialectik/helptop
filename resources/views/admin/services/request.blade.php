@@ -33,8 +33,8 @@
                 <tr>
                   <th>ID</th>
                   <th>Название</th>
-                  <th>Раздел</th>
-                  <th>Категория</th>
+                  <th>Дата начала публикации</th>
+                  <th>Дата завершения публикации </th>
                   <th>Вид услуги</th>
                   <th>Картинка</th>
                   <th>Действия</th>
@@ -45,8 +45,8 @@
                 <tr>
                   <td>{{$service->id}}</td>
                   <td>{{$service->title}}</td>
-                  <td>{{$service->getSectionTitle()}}</td>
-                  <td>{{$service->getCategoryTitle()}}</td>
+                  <td>{{$service->getDateAttribute($service->date_on, $date_offset)}}</td>
+                  <td>{{$service->getDateAttribute($service->date_off, $date_offset)}}</td>
                   <td>{{$service->getKindTitle()}}</td>
                   <td>
                     <img src="{{$service->getImage()}}" alt="" width="100">
@@ -54,8 +54,9 @@
                   <td>
 	                  <a href="{{route('services.edit', $service->id)}}" class="fa fa-pencil"></a> 
 					  
-					  <form method="DELETE" action="{{ route('services.destroy', $service->id) }}">
+					  <form method="POST" action="{{ route('services.destroy', $service->id) }}">
 			  			@csrf
+			  			<input type="hidden" name="_method" value="DELETE">
 		                  <button onclick="return confirm('are you sure?')" type="submit" class="delete">
 		            		<i class="fa fa-remove"></i>
 		                  </button>

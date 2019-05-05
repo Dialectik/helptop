@@ -140,7 +140,6 @@
     $('#category_id').change(function(){
         var categoryID = $(this).val();    
         if(categoryID){
-            
             $.ajax({
                type:'GET',
                url: "{{url('/admin/kinds/create/getcategorycode')}}?category_id="+categoryID,
@@ -151,6 +150,7 @@
                     $("#cat_code").val(res);
                     $("#c_code").val(res);
                     $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+                    
                 }else{
                     $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                     $("#c_code").empty();

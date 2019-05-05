@@ -17,6 +17,8 @@ class SectionsUpdateController extends Controller
 
     	$section = Section::find($request->get('id'));
     	$section->update($request->all());
+    	$section->slug = str_slug($section->title);   //Изменение слага перед сохранением по мотивам измененного названия
+    	$section->save();
     	return redirect()->route('sections.index');
     }
 }

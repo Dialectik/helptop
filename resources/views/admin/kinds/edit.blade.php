@@ -84,6 +84,7 @@
 	        </div>
 	        
 	        
+	        
 	        <!-- /.box-body -->
 	        <div class="box-footer">
 	           <button class="btn btn-warning pull-right">Изменить</button>
@@ -127,8 +128,7 @@
 
                 }else{
                    	$("#category_id_v").empty();
-                   	$("#kind_id").empty();
-                   	
+                   	                   	
                    	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                 	$("#c_code").empty();
                 	$("#cat_code").empty();
@@ -179,8 +179,7 @@
             });
         }else{
             $("#category_id_v").empty();
-            $("#kind_id").empty();
-            
+                        
             $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
             $("#c_code").empty();
             $("#cat_code").val('');
@@ -226,7 +225,7 @@
         
 </script>
 
-<!-- Ограничение поля ввода кода вида ДВУМЯ ЦИФРАМИ -->
+<!-- Ограничение поля ввода кода вида ЦИФРАМИ -->
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		$.fn.forceNumbericOnly = function() {

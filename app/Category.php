@@ -74,4 +74,6 @@ class Category extends Model
         return $this->code[2] . $this->code[3];
     }
     
+    
+    
 }

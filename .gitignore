@@ -1,9 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/ckfinder/
+/public/plugins/
 /storage/*.key
 /vendor
-/public/plugins/
 /ckfinder
 .env
 .phpunit.result.cache

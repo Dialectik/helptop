@@ -18,7 +18,11 @@ class CategoriesController extends Controller
     public function create()
     {
     	$sections = Section::all();
-    	return view('admin.categories.create', ['sections'	=>	$sections]);
+    	//$category = Category::max('code');
+    	return view('admin.categories.create', [
+    	'sections'	=>	$sections/*,
+    	'category'	=>	$category*/
+    	]);
     }
 
     public function store(Request $request)

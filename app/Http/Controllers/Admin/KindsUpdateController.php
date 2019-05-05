@@ -19,7 +19,13 @@ class KindsUpdateController extends Controller
 
     	$kind = Kind::find($request->get('id'));
     	$kind->update($request->all());
+    	
+    	//Обновить вид услуг в базе, если в форме "edit" он менялся
+    	if($request->category_id_v != null & $request->category_id_v != $request->category_id){
+			$kind->category_id = $request->category_id_v;
+		}
     	$kind->code = $kind->setKindCode($request);
+    	$kind->slug = str_slug($kind->title);   //Изменение слага перед сохранением по мотивам измененного названия
     	$kind->save();
     	return redirect()->route('kinds.index');
     }
