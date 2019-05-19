@@ -19,7 +19,22 @@ Route::get('/', 'GuestController@index')->name('welcome');
 //Auth::routes();
 
 
-
+//Route::get('storage/{filename}', function ($filename)
+//{
+//    $path = storage_path('public/' . $filename);
+//
+//    if (!File::exists($path)) {
+//        abort(404);
+//    }
+//
+//    $file = File::get($path);
+//    $type = File::mimeType($path);
+//
+//    $response = Response::make($file, 200);
+//    $response->header("Content-Type", $type);
+//
+//    return $response;
+//});
 
 
 //Маршруты для авторизованных пользователей
@@ -95,7 +110,14 @@ Route::group(['prefix'=>'admin', 'namespace'=>'Admin', 'middleware' => 'admin'],
 	Route::resource('/services', 'ServicesController');
 	//Маршрут для запросов данных из таблицы услуг
 	Route::post('/services/request', 'ServiceRequestController@_request')->name('services.request');
+	//Маршруты для работы с типами торгов
+	Route::resource('/bidding_type', 'BiddingTypeController');
 	
+	
+	
+	
+	
+	//jQuery запросы
 	Route::get('/kinds/create/getcategory', 'LinkedListsController@getCategory');	
 	Route::get('/kinds/edit/getcategory', 'LinkedListsController@getCategory');	
 	Route::get('/services/index/getcat', 'LinkedListsController@getCat');	

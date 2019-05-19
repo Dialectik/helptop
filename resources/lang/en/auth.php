@@ -17,7 +17,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in : 10 min.',
     'logged' => 'You are logged in!',
     'register' => 'Register',
-    'name' => 'Name',
+    'name' => 'Login',
     'email' => 'E-Mail Address',
     'password' => 'Password',
     'c_password' => 'Confirm Password',

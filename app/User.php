@@ -38,11 +38,81 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    //связь пользователя с услугами, которые он может предлагать на сайте
-    /*public function services()
+    //ДОЧЕРНЯЯ связь - связь пользователя с услугами, которые он может предлагать на сайте
+    public function services()
     {
 		return $this->hasMany(Service::class);
-	}*/
+	}
+	
+	//ДОЧЕРНЯЯ связь - личная информация
+	public function personal()
+    {
+		return $this->hasOne(Personal::class);
+	}
+	
+	//ДОЧЕРНЯЯ связь - счет пользователя
+	public function score()
+    {
+		return $this->hasOne(Score::class);
+	}
+	
+	//ДОЧЕРНЯЯ связь - сделки пользователя - продавца
+    public function dealSeller()
+    {
+		return $this->hasMany(Deal::class, 'user_seller_id');
+	}
+	//ДОЧЕРНЯЯ связь - сделки пользователя - покупателя
+    public function dealBuyer()
+    {
+		return $this->hasMany(Deal::class, 'user_buyer_id');
+	}
+	
+	//ДОЧЕРНЯЯ связь - 	рейтинг и отзывы оцениваемого пользователя
+	public function ratingRated()
+    {
+		return $this->hasMany(Rating::class, 'user_rated_id');
+	}
+	//ДОЧЕРНЯЯ связь - 	рейтинг и отзывы пользователя дающего оценку
+	public function ratingAuditor()
+    {
+		return $this->hasMany(Rating::class, 'user_auditor_id');
+	}
+	
+	//ДОЧЕРНЯЯ связь - 	история продавца 
+	public function historySeller()
+    {
+		return $this->hasMany(History::class, 'user_seller_id');
+	}
+	//ДОЧЕРНЯЯ связь - 	история покупателя
+	public function historyBuyer()
+    {
+		return $this->hasMany(History::class, 'user_buyer_id');
+	}
+	
+	//ДОЧЕРНЯЯ связь - реклама
+	public function blurbs()
+    {
+		return $this->hasMany(Blurb::class);
+	}
+		
+	//ДОЧЕРНЯЯ связь - адреса предоставления услуг пользователем
+	public function address()
+    {
+		return $this->hasMany(Address::class);
+	}	
+	
+	//ДОЧЕРНЯЯ связь - промежутки времени в которые предоставляется услуга
+	public function distance()
+    {
+		return $this->hasOne(Distance::class);
+	}
+	
+	//ДОЧЕРНЯЯ связь - 	банк изображений
+	public function images()
+    {
+		return $this->hasMany(Image::class);
+	}
+
     
     //добавление нового пользователя
 	public static function add($fields)

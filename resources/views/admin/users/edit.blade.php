@@ -15,9 +15,9 @@
     <!-- Main content -->
     <section class="content">
 		<!-- Указание в форме возможности загрузки файлов:  enctype="multipart/form-data"-->
-		<form method="PUT" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
-			  	@csrf
-	
+		<form method="POST" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
+			@csrf
+			<input type="hidden" name="_method" value="PUT">
 	
 	      <!-- Default box -->
 	      <div class="box">

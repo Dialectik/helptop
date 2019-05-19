@@ -7,8 +7,10 @@ use DateTimeZone;
 use Auth;
 use Carbon\Carbon;  //модуль конвертации дат
 use \Storage;
+use App\ServiceDesc;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;  //модуль формирования слагов
+use Illuminate\Database\Eloquent\Collection;
 
 class Service extends Model
 {
@@ -19,35 +21,83 @@ class Service extends Model
     
     //указание данных, которые будут добавляться при реализации функции add (добавление поста)
     //данный массив затем испол зуется методом fill при добавлении поста
-    protected $fillable = ['title', 'content', 'period', 'section_id', 'category_id', 'kind_id', 'bidding_type', 'price_start', 'description', 'product_code_id'];
+    protected $fillable = ['title', 'period', 'section_id', 'category_id', 'kind_id', 'bidding_type', 'product_code_id'];
     
-    //создание связи услуги с разделом
+    //РОДИТЕЛЬСКАЯ связь - создание связи услуги с разделом
     public function section()
     {
 		return $this->belongsTo(Section::class);  //принадлежит разделу
 	}
     
-    //создание связи услуги с категорией
+    //РОДИТЕЛЬСКАЯ связь - создание связи услуги с категорией
     public function category()
     {
 		return $this->belongsTo(Category::class);  //принадлежит категории
 	}
 	
-	//создание связи услуги с видом услуг
+	//РОДИТЕЛЬСКАЯ связь - создание связи услуги с видом услуг
     public function kind()
     {
 		return $this->belongsTo(Kind::class);  //принадлежит виду услуг
 	}
-	
-	
-	
-	//создание связи услуги с пользователем
+		
+	//РОДИТЕЛЬСКАЯ связь - создание связи услуги с пользователем
 	public function author()
 	{
 		return $this->belongsTo(User::class, 'user_id');  //принадлежит пользователю
 	}
 	
+	//РОДИТЕЛЬСКАЯ связь - типы торгов
+	public function biddingType()
+	{
+		return $this->belongsTo(BiddingType::class, 'bidding_type');  //принадлежит типу торгов
+	}
 	
+	
+	
+	//ДОЧЕРНЯЯ связь - торги
+	public function biddings()
+    {
+		return $this->hasMany(Bidding::class);
+	}
+	
+	//ДОЧЕРНЯЯ связь - корзина
+	public function baskets()
+    {
+		return $this->hasMany(Basket::class);		//имеет много
+	}
+	
+	//ДОЧЕРНЯЯ связь - реклама
+	public function blurbs()
+    {
+		return $this->hasMany(Blurb::class);		//имеет много
+	}
+	
+	//ДОЧЕРНЯЯ связь - описание услуг
+	public function serviceDesc()
+    {
+		return $this->hasOne(ServiceDesc::class);	//имеет одного
+	}
+	
+	//ДОЧЕРНЯЯ связь - адреса предоставления услуг
+	public function address()
+    {
+		return $this->hasMany(Address::class);		//имеет много
+	}
+	
+	//ДОЧЕРНЯЯ связь - периоды предоставления услуг
+	public function distance()
+    {
+		return $this->hasOne(Distance::class);		//имеет одного
+	}
+	
+	//ДОЧЕРНЯЯ связь - изображения
+	public function images()
+    {
+		return $this->hasMany(Image::class);		//имеет много
+	}
+	
+
 	
 	//создание связи избранных услуг с пользователями
 	public function favorites()
@@ -77,10 +127,7 @@ class Service extends Model
 		$service = new static;   //создание экземпляра класса
 		$service->fill($fields); //заполнение переменных класса значенимями из архива $fields
 		$service->user_id = Auth::user()->id;
-		
-		
-///!!!*** СДЕЛАТЬ:  Функция формирования товарного кода услуги 'product_code_id'
-		 
+
 
 		
 //		if(isset($fields['user_id'])){
@@ -105,43 +152,14 @@ class Service extends Model
 	//удаление услуги
 	public function remove()
 	{
-		$this->removeImage();  //Удалить картинку услуги до удаления услуги
-		$this->delete(); //Удалить сам текст
+		$this->removeImage();  // Удалить картинку услуги до удаления услуги
+		$id = $this->id;
+		ServiceDesc::where('service_id', $id)->delete(); //Удалить запись в связанной таблице ServiceDesc
+		Distance::where('service_id', $id)->delete(); //Удалить запись в связанной таблице Distance
+		$this->delete(); //Удалить услугу
 	}
 	
-	//загрузка картинки услуги
-	public function uploadImage($image)
-	{
-		if($image == null){return;}   //если картинка не загружена - вернуться
-		
-		$this->removeImage();//удаление старой картинки перед заменой на новую
-		
-		$filename = str_random(20) . '.' . $image->extension();  //генерация имени картинки 
-		$image->storeAs('uploads', $filename);  //загрузка картинки в папку uploads и присвоение файлу картинки сгенерированного названия
-		$this->image = $filename;  //присвоение картинки услуге (присвоение картинки полю image в БД)
-		$this->save();  //сохранение услуги
-	}
-    
-    //удаление картинки
-	public function removeImage()
-	{
-		if($this->image != null)    //если картинка была у услуги
-		{
-			Storage::delete('uploads/' . $this->image);  //удаление старой картинки
-		}
-	}
-    
-    //вывод картинки
-	public function getImage()
-	{
-		if($this->image == null)
-		{
-			return '/img/no-image.png';     //если у услуги нет картинки - загрузить по умолчанию
-		}
-		
-		return '/uploads/' . $this->image;  //если картинка есть - вывести картинку услуги
-	}
-	
+
 	//присвоение категории услуге
 	public function setCategory($id)
 	{
@@ -180,12 +198,7 @@ class Service extends Model
 	}
 	
 	
-	//Увеличитель просмотров
-	public function addViews()  
-	{
-		$this->views += 1;
-		$this->save();
-	}
+
 	
 	
 	//Мутатор - изменяет фромат даты для записи в базу  (предположительно часовой пояс пользователя 'Europe/Kiev')
@@ -236,7 +249,6 @@ class Service extends Model
     {
 		return $this->section != null ? $this->section->title : null;
 	}
-	
 	//Вывод категории услуги
 	public function getCategoryTitle()
     {
@@ -244,20 +256,58 @@ class Service extends Model
                 ?   $this->category->title
                 :   'Нет категории';
     }
-       
     //вывод айди категории для данной услуги
     public function getCategoryID()
     {
         return $this->category != null ? $this->category->id : null;
     }
-    
-    
     //вывод названия вида услуги
     public function getKindTitle()
     {
 		return $this->kind != null ? $this->kind->title : null;
 	}
+    //вывод названия типа торгов
+    public function biddingTypeTitle()
+    {
+		return $this->biddingType != null ? $this->biddingType->title : null;
+	}
     
+    
+    
+    //вывод краткого описания услуги из связанной таблицы serviceDesc
+    public function getContent()
+    {
+		return $this->serviceDesc != null ? $this->serviceDesc->content : null;
+	}
+    //вывод полного описания услуги из связанной таблицы serviceDesc
+    public function getDescription()
+    {
+		return $this->serviceDesc != null ? $this->serviceDesc->description : null;
+	}
+    //вывод объема и структуры из связанной таблицы serviceDesc
+    public function getValueService()
+    {
+		return $this->serviceDesc != null ? $this->serviceDesc->value_service : null;
+	}
+	//вывод дополнительных материалов к услуге из связанной таблицы serviceDesc
+    public function getAddMaterials()
+    {
+		return $this->serviceDesc != null ? $this->serviceDesc->add_materials : null;
+	}
+	
+	
+	//вывод начального срока предоставления услуги из связанной таблицы Distance
+	public function getPeriodInitial(){
+		return $this->Distance != null ? $this->Distance->period_initial : null;
+	}
+	//вывод конечного срока предоставления услуги из связанной таблицы Distance
+	public function getPeriodDeadline(){
+		return $this->Distance != null ? $this->Distance->period_deadline : null;
+	}
+	//вывод расписание предоставления услуги из связанной таблицы Distance
+	public function getPeriodSchedule(){
+		return $this->Distance != null ? $this->Distance->schedule : null;
+	}
     
    
     
@@ -330,12 +380,77 @@ class Service extends Model
 		return self::orderBy('date_on', 'desc')->take(4)->get();
 	}
 	
+
+	
+	    	    //вывод картинки
+	public function getImage()
+	{
+		$id = $this->id;
+		$image = ServiceDesc::where('service_id', $id)->pluck('image')->first();
+		
+		if($image == null)
+		{
+			return '/img/no-image.png';     //если у услуги нет картинки - загрузить по умолчанию
+		}
+		
+		
+		return Storage::url('/uploads/' . $image);  //если картинка есть - вывести картинку услуги
+	}
 	
 	
-	
-	
-	
+       	//загрузка картинки услуги
+	public function uploadImage($image)
+	{
+		if($image == null){return;}   //если картинка не загружена - вернуться
+		
+		$this->removeImage();//удаление старой картинки перед заменой на новую
+		
+		$filename = str_random(20) . '.' . $image->extension();  //генерация имени картинки 
+		$image->storeAs('uploads', $filename);  //загрузка картинки в папку uploads и присвоение файлу картинки сгенерированного названия
+		
+		$existing_desc = ServiceDesc::where('service_id', $this->id)->pluck('service_id')->first(); //Поиск в таблице доп описания записи для текущей услуги
+		
+		//Если записи нет (и значит нет записи о загруженной картинке)
+		if(!$existing_desc){
+			$new_image = new ServiceDesc;         //Создание нового объекта Описания услуги для сохранения картинки и ID услуги
+			$new_image->service_id = $this->id;
+			$new_image->image = $filename;  //присвоение имени файла картинки соответствующей записи доп описания услуги (присвоение картинки полю image в БД)
+			$new_image->save();  //сохранение записи в дополнительной таблице с картинкой услуги
+		}else{
+			//Поиск существующей записи
+			$id = ServiceDesc::where('service_id', $this->id)->pluck('id')->first();
+			$new_i = ServiceDesc::find($id);
+			//присвоение имени файла картинки соответствующей записи доп описания услуги (присвоение картинки полю image в БД)
+			$new_i->image = $filename;   
+			$new_i->save();  //сохранение записи в дополнительной таблице с картинкой услуги
+		}
+		
+	}
     
+        //удаление картинки
+	public function removeImage()
+	{
+		$id = $this->id;
+		$image = ServiceDesc::where('service_id', $id)->pluck('image')->first();
+		if($image != null)    //если картинка была у услуги
+		{
+			Storage::delete('uploads/' . $image);  //удаление старой картинки
+			ServiceDesc::where('service_id', $id)->image = null;  //Убрать из связанной таблицы ServiceDesc название удаленной картинки
+		}
+		
+	}
+	
+	//Увеличитель просмотров
+	public function addViews()  
+	{
+		$id = $this->id;
+		$sd = ServiceDesc::where('service_id', $id)->pluck('id')->first();
+		if($sd != null){
+			$view = ServiceDesc::find($id);
+			$view->views += 1;
+			$view->save();				//сохранение записи о просмотрах в дополнительной таблице
+		}
+	}
     
     
 }

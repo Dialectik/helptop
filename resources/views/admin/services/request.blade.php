@@ -28,6 +28,8 @@
               <div class="form-group">
                 <a href="{{route('services.create')}}" class="btn btn-success">Добавить</a>
               </div>
+              
+              <img src="" alt="" width="100">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -50,6 +52,7 @@
                   <td>{{$service->getKindTitle()}}</td>
                   <td>
                     <img src="{{$service->getImage()}}" alt="" width="100">
+                    
                   </td>
                   <td>
 	                  <a href="{{route('services.edit', $service->id)}}" class="fa fa-pencil"></a> 

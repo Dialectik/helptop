@@ -50,8 +50,9 @@
 	                  </td>
 	                  <td><a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil"></a> 
 		                  
-		                  <form method="DELETE" action="{{ route('users.destroy', $user->id) }}">
+		                  <form method="POST" action="{{ route('users.destroy', $user->id) }}">
 			  				@csrf
+			                  <input type="hidden" name="_method" value="DELETE">
 			                  <button onclick="return confirm('are you sure?')" type="submit" class="delete">
 			                   	<i class="fa fa-remove"></i>
 			                  </button>
