@@ -1,6 +1,6 @@
 @push('styles')
 	<style>
-      #category_id_v, #category_title, #kind_id_v, #kind_title {
+      	#category_id_v, #category_title, #kind_id_v, #kind_title {
 		 display: none; 
 		}
 		
@@ -10,6 +10,10 @@
 		
 		#price_buy_now1, #price_sell_now1, #price_lower1, #bet_step1, #price_start1 {
 		 display: none; 
+		}
+		
+		#period_un, #district_all, #city_v, #district_v, #street_v, #house_v, #city_title, #district_title, #street_title, #house_title, #address_un {
+			display: none;
 		}
 	</style>
 @endpush
@@ -43,13 +47,14 @@
         </div>
         <div class="box-body">
           <div class="col-md-9">
+                <!-- Название -->            
             <div class="form-group">
               <label for="exampleInputEmail1">Название</label>
               <input type="text" class="form-control" id="title" placeholder="" value="{{$service->title}}" name="title" maxlength="240" required>
             </div>
             
             
-                            <!-- Раздел -->
+                <!-- Раздел -->
 	        <div class="col-md-4">
 	            <div class="form-group">
 	              <label>Измените РАЗДЕЛ, в который входит вид услуг</label>
@@ -84,16 +89,14 @@
 					<input type="hidden" name="kind_id" id="kind_id" value="{{$service->kind_id}}" />
 					<select  name="kind_id_v" id="kind_id_v" style="width: 100%;">
 					</select>
-
 	            </div>
             </div>
             
-            
 
-          </div>  
-        </div>    
+          </div>  <!-- end "col-md-9" -->
+        </div>   <!-- end "box-body" -->
         
-        
+        		<!-- Лицевая картинка услуги -->
         <div class="box-body">
           	<div class="col-md-9">
             	<div class="form-group">
@@ -193,7 +196,6 @@
             </div>
              
           </div>  <!-- end "col-md-9" -->
-        
         </div>  <!-- end "box-body" -->
         
         
@@ -209,7 +211,6 @@
 	            </div>
 	         </div>
             
-           
             
                 <!-- Места предоставления услуги -->
 	        <div class="col-md-4">
@@ -252,17 +253,33 @@
 		              </select>
 	            </div>
             </div>
+            
+            <!-- Статус услуги искомой (опубликованные / все (вкл. архивные)-->
+		     <div class="form-group">
+				<p class="help-block">Снять, если нужно отправить услугу в архивные (не опубликованные)</p>
+				<label>
+					<?php 
+	                	$checked0 = null;
+	                	if(isset($service->status)){
+	                		if($service->status == 1){
+								$checked0 = 'checked';
+							}
+	                	} 
+	                	echo "<input type='checkbox' class='minimal' name='status' id='status' value='1' $checked0/>"; 
+	                ?>
+                </label>
+				<label>
+					Опубликовать услугу
+				</label>
+			</div>
        
             
           </div>  <!-- end "col-md-9" -->
-        
         </div>  <!-- end "box-body" -->
             
-      
-            
             
             <p></p>
-            <p></p>
+            <p></p>  <!-- Даты публикации -->
         <div class="box-body">
           <div class="col-md-9">  
                  <!-- Date -->
@@ -327,7 +344,6 @@
 			          <label for="exampleInputEmail1">Товарный код услуги</label>
 			          <span class="help-block">Формируестя автоматически</span>
 			          <input type="text" class="form-control" id="c_code" placeholder="" name="c_code" value="{{substr($service->product_code_id, 0, 6) . '-' . substr($service->product_code_id, 6, 4)}}" disabled>
-			          <input type="hidden" class="form-control" id="product_code_id" name="product_code_id" value="{{$service->product_code_id}}">
 			        </div>
 			     </div>
 
@@ -352,14 +368,21 @@
          
           
           <!-- Краткое описание услуги -->
-          <div class="col-md-8">
+          <div class="col-md-7">
             <div class="form-group">
                <label for="exampleInputEmail1">Краткое описание услуги</label>
               <p class="help-block">Измените краткое описание предлагаемой услуги для представления ее в перечнях услуг при поиске</p>
               <textarea name="description" id="description" cols="30" rows="10" class="form-control" maxlength="300" >{{$service->getDescription()}}</textarea>
 	        </div>
 	      </div>
-          
+          <!-- Рекламный слоган для услуги -->
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Рекламный слоган для услуги</label>
+              <p class="help-block">Если Вы планируете рекламировать данную услугу - придумайте сразу для нее рекламный слоган, который будет отображаться на заглавной странице</p>
+              <textarea name="slogan" id="slogan" cols="10" rows="5" class="form-control" maxlength="70"  >{{$service->serviceDesc->slogan}}</textarea>
+	        </div>
+	      </div>
           <!-- Полное описание услуги -->
           <div class="col-md-10">
             <div class="form-group">
@@ -373,7 +396,7 @@
       
       
         <p></p>
-        <p></p>
+        <p></p>  <!-- Объем услуги и Дополнительные материалы -->
 		<div class="box-body">
 			<div class="col-md-9">  
 			<!-- Объем и структура услуги -->
@@ -398,7 +421,7 @@
 		</div>  <!-- end "box-body" -->
 		
 		<p></p>
-        <p></p>
+        <p></p>  <!-- Дни до начального и конечного срока предоставления услуги -->
         <div class="box-body">
           <div class="col-md-9">  
             <!-- Date period_initial-->
@@ -457,16 +480,235 @@
 		              <textarea name="schedule" id="schedule" cols="30" rows="10" class="form-control" >{{$service->getPeriodSchedule()}}</textarea>
 			        </div>
 				</div>
-
-
-
 			</div>  <!-- end "col-md-9" -->
 		</div>  <!-- end "box-body" -->     
 		
+		<p></p>
+        <p></p>  <!-- Длительность и результат -->
+		<div class="box-body">
+			<div class="col-md-9">  
+				<!-- Длительность процесса предоставления услуги в часах-->
+				<div class="col-md-3">
+		            <div class="form-group">
+						<label>Длительность процесса предоставления услуги в часах</label>
+						<input type="number" step="0.1" min="0" class="form-control" id="duration" placeholder="" name="duration" value="{{$service->getDuration()}}">               		<span>  часов</span>
+		            </div>
+				</div>
+				<!-- Результат получения услуги-->
+				<div class="col-md-9">
+		            <div class="form-group">
+						<label>Результат получения услуги</label>
+						<input type="text" class="form-control" id="result" placeholder="" name="result" value="{{$service->getResult()}}" required>      						</div>
+				</div>
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->		
+
+
+		<p></p>
+        <p></p>  <!-- Доступность и условия оплаты услуги-->
+		<div class="box-body">
+			<div class="col-md-9">
+				<!-- Доступность услуги-->
+				<div class="col-md-4">
+		            <div class="form-group">
+		              <label>Доступность услуги</label>
+		              <p class="help-block">Если предполагается, что услуга доступна и может быть предоставлена в любой момент после заключения сделки - выбирайте - "В наличии", если нет - "Под заказ" (тогда в дополниельной информации нужно указать возможные сроки ожидания)</p>
+		                <select class="form-control select2" name="availability" id="availability" style="width: 100%;" required>
+			              	<option style="width: 100%" value="{{$service->getAvailability()}}">
+			              		<?php
+			              			switch ($service->getAvailability()) {
+									  case '1':
+									    echo 'В наличии';
+									    break;
+									  case '2':
+									    echo 'Под заказ';
+									    break;
+									  default:
+									    break;
+									}
+			              		?>
+			              	</option>
+			              	<option style="width: 100%" value="">- выберите доступность -</option>
+			              	<option style="width: 100%" value="1">В наличии</option>
+			              	<option style="width: 100%" value="2">Под заказ</option>
+		               </select>
+		            </div>
+				</div>
+				<!-- Условия оплаты-->
+		        <div class="col-md-4">
+		            <div class="form-group">
+		              <label>Условия оплаты</label>
+		              <p class="help-block">Необходимо указать сроки и этапность оплаты услуги</p>
+		                <select class="form-control select2" name="terms_payment" id="terms_payment" style="width: 100%;" required>
+			              	<option selected style="width: 100%" value="{{$service->getTermsPayment()}}">
+			              		<?php
+			              			switch ($service->getTermsPayment()) {
+									  case '1':
+									    echo 'Предоплата';
+									    break;
+									  case '2':
+									    echo 'Оплата после/в момент получения услуги';
+									    break;
+									  case '3':
+									    echo 'Аванс';
+									    break;
+									  case '4':
+									    echo 'Поэтапная оплата';
+									    break;
+									  case '5':
+									    echo 'Любой способ оплаты';
+									    break;
+									  default:
+									    break;
+									}
+			              		?>
+			              	</option>
+			              	<option style="width: 100%" value="">- выберите срок -</option>
+			              	<option style="width: 100%" value="1">Предоплата</option>
+			              	<option style="width: 100%" value="2">Оплата после/в момент получения услуги</option>
+			              	<option style="width: 100%" value="3">Аванс</option>
+			              	<option style="width: 100%" value="4">Поэтапная оплата</option>
+			              	<option style="width: 100%" value="5">Любой способ оплаты</option>
+		               </select>
+		            </div>
+				</div>
+
+				<div class="col-md-4">    
+		            <!-- Расширяемая услуга -->
+		            <div class="form-group">
+		              <label>
+		                <?php 
+		                	$checked1 = null;
+		                	if($service->getExpandable()) $checked1 = 'checked';
+		                	echo "<input type='checkbox' class='minimal' name='expandable' id='expandable' value='1' $checked1/>"; 
+		                ?>
+		              </label>
+		              <label>
+		                Расширяемая услуга
+		              </label>
+		              <p class="help-block">Если до начала предоставления услуги не могут быть предусмотрена необходимость применения дополнительных материалов и услуг не входящих в начальную стоимость услуги</p
+		            </div>
+
+		            <!-- Масштабируемая услуга -->
+		            <div class="form-group">
+
+		              <label>
+		                <?php 
+		                	$checked2 = null;
+		                	if($service->getScalable()) $checked2 = 'checked';
+		                	echo "<input type='checkbox' class='minimal' name='scalable' id='scalable' value='1' $checked2/>"; 
+		                ?>
+		              </label>
+		              <label>
+		                Масштабируемая услуга
+		              </label>
+		              <p class="help-block">Если услуга может быть выражена в количественных единицах (например на 1 м кв., 1 точка подключения, 1 стр.)</p
+		            </div>
+		        </div>
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->		
+
+        <p></p>
+        <p></p>  <!-- Дополнительные условия -->
+		<div class="box-body">
+			<div class="col-md-9">  
+				<!-- Условия предоставления -->
+				<div class="col-md-6">
+		            <div class="form-group">
+		              <label for="exampleInputEmail1">Условия предоставления</label>
+		              <p class="help-block">Изложите какие условия должен соблюсти контрагент для успешного прохождения процесса предоставления услуги и ее оплаты</p>
+		              <textarea name="terms_provision" id="terms_provision" cols="30" rows="10" class="form-control" >{{$service->getTermsProvision()}}</textarea>
+			        </div>
+				</div>
+				<!-- Дополнительные условия -->			
+				<div class="col-md-6">
+		            <div class="form-group">
+		              <label for="exampleInputEmail1">Дополнительные условия</label>
+		              <p class="help-block">Опишите Дополнительные условия, которые нужно учесть контрагенту перед участием в торгах по данной услуге</p>
+		              <textarea name="add_terms" id="add_terms" cols="30" rows="10" class="form-control" >{{$service->getAddTerms()}}</textarea>
+			        </div>
+				</div>
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->
 		
 		
+		<p></p>
+        <p></p>  <!-- Адрес предоставления услуги -->
+		<div class="box-body">
+			<label>Уточните основной Адрес предоставления услуги</label>
+			<div class="col-md-12">
+	            <!-- Область -->
+		        <div class="col-md-2">
+		            <div class="form-group">
+		              <label>Область</label>
+			              <select class="form-control select2" name="region" id="region" style="width: 100%;" >
+				              	<option selected value="{{$service->getRegion()}}">{{$service->getRegion()}}</option>
+				              	@foreach($uaddress as $uaddr)
+			                		<option value="{{$uaddr->region}}">{{$uaddr->region}}</option>
+			              		@endforeach
+			              </select>
+		            </div>
+		         </div>
+	            <!-- Город -->
+		        <div class="col-md-3">
+		            <div class="form-group">
+		              <label>Город</label>
+			              <input type="text" name="city_title" id="city_title" value="{{$service->getCity()}}" style="width: 100%;" />
+						<input type="hidden" name="city" id="city" value="{{$service->getCity()}}" />
+			              
+			              <select  name="city_v" id="city_v" style="width: 100%;" >
+			              </select>
+		            </div>
+	            </div>
+				<!-- Район -->
+		        <div class="col-md-2" id="district_all">    
+		            <div class="form-group">
+		              <label>Район</label>
+			              <input type="text" name="district_title" id="district_title" value="{{$service->getDistrict()}}" style="width: 100%;" />
+						<input type="hidden" name="district" id="district" value="{{$service->getDistrict()}}" />
+						<input type="hidden" name="district_er" id="district_er"/>
+			              
+			              <select  name="district_v" id="district_v" style="width: 100%;">
+			              </select>
+		            </div>
+	            </div>
+	            <!-- Улица -->
+		        <div class="col-md-2">    
+		            <div class="form-group">
+		              <label>Улица</label>
+			              <input type="text" name="street_title" id="street_title" value="{{$service->getStreet()}}" style="width: 100%;" />
+						<input type="hidden" name="street" id="street" value="{{$service->getStreet()}}" />
+			              
+			              <select  name="street_v" id="street_v" style="width: 100%;">
+			              </select>
+		            </div>
+	            </div>
+	            <!-- Дом -->
+		        <div class="col-md-2">    
+		            <div class="form-group">
+		              <label>Дом</label>
+			              <input type="text" name="house_title" id="house_title" value="{{$service->getHouse()}}" style="width: 100%;" />
+						<input type="hidden" name="house" id="house" value="{{$service->getHouse()}}" />
+			              
+			              <select  name="house_v" id="house_v" style="width: 100%;">
+			              </select>
+		            </div>
+	            </div>
+	            
+	        <!-- Комментарий по содержанию полей адреса -->
+	        <div class="col-md-8" id="address_un">
+		        <div class="form-group alert alert-info" >
+					Можно заполнять не все поля адреса			
+		        </div>
+	        </div>
+
+			</div>  <!-- end "col-md-12" -->
+		</div>  <!-- end "box-body" -->
 		
-       
+	
+			
+		
+
         <!-- /.box-body -->
         <div class="box-footer">
           <button class="btn btn-warning pull-right">Изменить</button>
@@ -485,8 +727,16 @@
 
 @push('scripts')
 
+<!-- Подключение текстового редактора -->
+<script>
+    $(document).ready(function(){
+        var editor_sc = CKEDITOR.replaceAll();
+        CKFinder.setupCKEditor( editor_sc );
+    })
+</script>
+
+<!-- Показ предупреждений о корректности выбора сроков предоставления услуги -->
 <script type="text/javascript">
-    /*Связанные списки разделов и категорий*/
     jQuery(document).ready(function($){
 		var $pin0 = $("#period_initial").val();
 		var $pde0 = $("#period_deadline").val();
@@ -517,7 +767,9 @@
 	});
 </script>
 
+<!-- Если курсор мышки будет наведен на категории и виды услуги -->
 <script type="text/javascript">
+	//Если курсор мышки будет наведен на категории и виды услуги
 	$(document).ready(function(){
         $("#category_title").css("display", "inline-block");
         $("#kind_title").css("display", "inline-block");
@@ -546,12 +798,12 @@
                    	                   	
                    	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                 	$("#c_code").empty();
-                	$("#product_code_id").empty();
+                	//$("#product_code_id").empty();
 					$("#c_code").prop("disabled", true);  /* Блокировка инпута */
                 }
                }
-            });
-		});
+            }); //end $.ajax
+		}); //end $('#category_title').bind
 		
 		
 		$('#kind_title').bind('mouseover', function(){
@@ -579,7 +831,7 @@
                    	
                    	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                 	$("#c_code").empty();
-                	$("#product_code_id").empty();
+                	//$("#product_code_id").empty();
 					$("#c_code").prop("disabled", true);  /* Блокировка инпута */
                 }
                }
@@ -590,6 +842,7 @@
     })
 </script>
 
+<!-- Если будет изменен раздел или категория услуги -->
 <script type="text/javascript">
   	$('#section_id').change(function(){
         var sectionID = $(this).val();    
@@ -616,7 +869,7 @@
                    	                   	
                    	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                 	$("#c_code").empty();
-                	$("#product_code_id").empty();
+                	//$("#product_code_id").empty();
 					$("#c_code").prop("disabled", true);  /* Блокировка инпута */
                 }
                }
@@ -626,7 +879,7 @@
                         
             $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
             $("#c_code").empty();
-            $("#product_code_id").val('');
+            //$("#product_code_id").val('');
             $("#c_code").val('');
             $("#c_code").prop("disabled", true);  /* Блокировка инпута */
         }      
@@ -658,7 +911,7 @@
                    	                   	
                    	$("#c_code").prop("enabled", true);   /* Разблокировка инпута */
                 	$("#c_code").empty();
-                	$("#product_code_id").empty();
+                	//$("#product_code_id").empty();
 					$("#c_code").prop("disabled", true);  /* Блокировка инпута */
                 }
                }
@@ -668,7 +921,7 @@
                         
             $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
             $("#c_code").empty();
-            $("#product_code_id").val('');
+            //$("#product_code_id").val('');
             $("#c_code").val('');
             $("#c_code").prop("disabled", true);  /* Блокировка инпута */
         }      
@@ -677,8 +930,8 @@
     
     
     
-    /*Назначить товарный код услуги для данного вида услуг - следующий по списку*/   
-    $('#kind_id_v').change(function(){
+    /*Назначить товарный код услуги для данного вида услуг - следующий по списку - ТЕПЕРЬ ФОРМИРУЕСТСЯ в контроллере ServicesController*/   
+/*    $('#kind_id_v').change(function(){
         var kindID = $(this).val();    
         if(kindID){
             
@@ -687,33 +940,294 @@
                url: "{{url('/admin/services/edit/getsercode')}}?kind_id="+kindID,
                success:function(res){               
                 if(res){
-                    $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+                    $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 	                    $("#c_code").empty();
 	                    $("#c_code").val(res.substr(0, 6) + '-' + res.substr(6, 4));
-	                    $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+	                    $("#c_code").prop("disabled", true);  // Блокировка инпута 
 	                    $("#product_code_id").empty();
 	                    $("#product_code_id").val(res);                    
 		                }else{
-		                    $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+		                    $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 				            $("#c_code").empty();
-				            $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+				            $("#c_code").prop("disabled", true);  // Блокировка инпута 
 				            $("#product_code_id").empty();
 		                }
 		               }
 		            });
 		        }else{
-		            $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+		            $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 				    $("#c_code").empty();
-				    $("#c_code").val('');					/* Очистка инпута */
-				    $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+				    $("#c_code").val('');					// Очистка инпута 
+				    $("#c_code").prop("disabled", true);  // Блокировка инпута 
 				    $("#product_code_id").empty();
-				    $("#product_code_id").val('');					/* Очистка инпута */
+				    $("#product_code_id").val('');					// Очистка инпута 
 		        }      
-		    });   
+		    });   */
         
         
 </script>
 
+<!-- Связанные списки областей, городов, районов, домов -->
+<script type="text/javascript">
+    //Связанные списки областей, городов, районов, домов
+    $('#region').change(function(){
+        var region = $(this).val();    
+        if(region){
+        	$("#city_title").css("display", "none");
+		    $("#city_v").css("display", "inline-block");
+		    $("#city_v").addClass('form-control');
+		    $("#city_v").addClass('select2');
+		    $("#street_title").css("display", "none");
+	    	$("#street_v").css("display", "inline-block");
+	   		$("#street_v").addClass('form-control');
+	    	$("#street_v").addClass('select2');
+	    	$("#house_title").css("display", "none");
+    		$("#house_v").css("display", "inline-block");
+   			$("#house_v").addClass('form-control');
+    		$("#house_v").addClass('select2');
+        	
+            $.ajax({
+               type:'GET',
+               url: "{{url('/admin/services/edit/getcities')}}?region="+region,
+               success:function(res){               
+                if(res){
+                    $("#city_v").empty();
+                    $("#district_v").empty();
+                    $("#street_v").empty();
+                    $("#house_v").empty();
+                    $("#city_v").append('<option value="">- выберете город -</option>');
+                    $.each(res,function(id, value){
+                        $("#city_v").append('<option value="'+value+'">'+value+'</option>');
+                    });
+
+                }else{
+                   $("#city_v").empty();
+                   $("#district_v").empty();
+                   $("#street_v").empty();
+                   $("#house_v").empty();
+                }
+               }
+            });
+        }else{
+            $("#city_v").empty();
+            $("#district_v").empty();
+            $("#street_v").empty();
+            $("#house_v").empty();
+        }      
+       });
+        
+        /*Связанные списки городов и районов (разделить города с одинаковым названием), городов и улиц (когда город один в области)*/
+        $('#city_v').on('change',function(){
+        var city = $(this).val();    
+        var region = $("#region").val();    
+        if(city){
+        	$("#district_title").css("display", "none");
+		    $("#district_v").css("display", "inline-block");
+		    $("#district_v").addClass('form-control');
+		    $("#district_v").addClass('select2');
+		    $("#street_title").css("display", "none");
+	    	$("#street_v").css("display", "inline-block");
+	   		$("#street_v").addClass('form-control');
+	    	$("#street_v").addClass('select2');
+	    	$("#house_title").css("display", "none");
+    		$("#house_v").css("display", "inline-block");
+   			$("#house_v").addClass('form-control');
+    		$("#house_v").addClass('select2');
+        	
+            $.ajax({
+               type:"GET",
+               url:"{{url('/admin/services/edit/getdistricts')}}?city="+city+"&region="+region,
+               success:function(res){               
+		            if(res[1]){
+		                $("#district_all").css("display", "inline-block");
+		                $("#district_v").empty();
+		                $("#street_v").empty();
+		                $("#district_v").append('<option value="">- выберете район -</option>');
+		                $.each(res,function(id,value){
+		                    $("#district_v").append('<option value="'+value+'">'+value+'</option>');
+		                });
+
+		                }else{
+		                   //Если такой город есть только в одном из районов области - приступаем к выводу перечней улиц
+				            $("#street_title").css("display", "none");
+					    	$("#street_v").css("display", "inline-block");
+					   		$("#street_v").addClass('form-control');
+					    	$("#street_v").addClass('select2');
+					    	$("#house_title").css("display", "none");
+				    		$("#house_v").css("display", "inline-block");
+				   			$("#house_v").addClass('form-control');
+				    		$("#house_v").addClass('select2');
+				            
+				            $.ajax({
+				               type:"GET",
+				               url:"{{url('/admin/services/edit/getstreets')}}?city="+city+"&region="+region,
+				               success:function(res1){               
+				                if(res1){
+				                    $("#district_v").empty();
+				                    $("#district_v").val('');
+				                    $("#district_er").empty();
+				                    $("#district_er").val(1);
+				                    $("#district_all").css("display", "none");
+				                    $("#street_v").empty();
+				                    $("#house_v").empty();
+				                    $("#street_v").append('<option value="">- выберете улицу -</option>');
+				                    $.each(res1,function(id,value){
+					                        $("#street_v").append('<option value="'+value+'">'+value+'</option>');
+					                    });
+
+					                }else{
+					                   $("#district_v").empty();
+					                   $("#district_v").val('');
+					                   $("#district_er").empty();
+				                       $("#district_er").val(1);
+					                   $("#street_v").empty();
+					                   $("#district_all").css("display", "none");
+					                } //end if(res1) ... else
+					               } //end success:function(res)
+					            }); //end $.ajax
+		                   
+		                   $("#district_v").empty();
+		                   $("#district_v").val('');
+		                   $("#district_er").empty();
+				           $("#district_er").val(1);
+		                   $("#street_v").empty();
+		                   $("#house_v").empty();
+		                   $("#district_all").css("display", "none");
+		                }
+	               } //end success:function(res)
+	            });
+	        }else{
+	            $("#district_v").empty();
+	            $("#district_v").val('');
+	            $("#district_er").empty();
+				$("#district_er").val(1);
+	            $("#street_v").empty();
+	            $("#house_v").empty();
+	            $("#district_all").css("display", "none");
+	        }
+       	}); //end  $('#city').on
+       	
+       	
+       	/*Связанные списки городов и улиц с учетом наличия в области одинаковых городов в разных районах */        
+        $('#district_v').on('change',function(){
+	        var district = $(this).val();
+	        var region = $("#region").val();
+	        //Если значение города уже изменено - берем новое значение
+	        if(!$("#city_v").val()){
+				var city = $("#city").val();
+			}else{
+				var city = $("#city_v").val();
+			}
+
+			if(district){
+				$("#street_title").css("display", "none");
+		    	$("#street_v").css("display", "inline-block");
+		   		$("#street_v").addClass('form-control');
+		    	$("#street_v").addClass('select2');
+		    	$("#house_title").css("display", "none");
+		    	$("#house_v").css("display", "inline-block");
+		   		$("#house_v").addClass('form-control');
+		    	$("#house_v").addClass('select2');
+				
+		        $.ajax({
+		           type:"GET",
+		           url:"{{url('/admin/services/edit/getstreetd')}}?city="+city+"&region="+region+"&district="+district,
+		           success:function(res2){               
+		            if(res2){
+		                $("#house_v").empty();
+		                $("#street_v").empty();
+		                $("#street_v").append('<option value="">- выберете улицу -</option>');
+		                $.each(res2,function(id,value){
+		                    $("#street_v").append('<option value="'+value+'">'+value+'</option>');
+		                });
+
+		                }else{
+		                   $("#street_v").empty();
+		                   $("#house_v").empty();
+		                } //end if(res2) ... else
+		            } //end  success:function(res2)
+	            }); //end $.ajax
+	        }else{
+	            $("#street_v").empty();
+	            $("#house_v").empty();
+	        } //end if(district) ... else
+       	}); //end  $('#district').on
+       	
+       	/*Связанные списки улиц и домов */        
+        $('#street_v').on('change',function(){
+	        var street = $(this).val();
+	        var region = $("#region").val();
+	        //Если значение города уже изменено - берем новое значение
+	        if(!$("#city_v").val()){
+				var city = $("#city").val();
+			}else{
+				var city = $("#city_v").val();
+			}
+	        //Если значение района уже изменено - берем новое значение
+	        if(!$("#district_v").val()){
+				var district = $("#district").val();
+			}else{
+				var district = $("#district_v").val();
+			}
+
+			if(!district){
+				if(street){
+			        $("#house_title").css("display", "none");
+		    		$("#house_v").css("display", "inline-block");
+		   			$("#house_v").addClass('form-control');
+		    		$("#house_v").addClass('select2');
+			        
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/edit/gethouse')}}?city="+city+"&region="+region+"&street="+street,
+			           success:function(res3){               
+			            if(res3){
+			                $("#house_v").empty();
+			                $("#house_v").append('<option value="">- выберете дом -</option>');
+			                $.each(res3,function(id,value){
+			                    $("#house_v").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house_v").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house_v").empty();
+			        } //end if(street) ... else
+			}else{
+				if(street){
+			        $("#house_title").css("display", "none");
+		    		$("#house_v").css("display", "inline-block");
+		   			$("#house_v").addClass('form-control');
+		    		$("#house_v").addClass('select2');
+			        
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/edit/gethoused')}}?city="+city+"&region="+region+"&district="+district+"&street="+street,
+			           success:function(res4){               
+			            if(res4){
+			                $("#house_v").empty();
+			                $("#house_v").append('<option value="">- выберете дом -</option>');
+			                $.each(res4,function(id,value){
+			                    $("#house_v").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house_v").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house_v").empty();
+			        } //end if(street) ... else
+			} //end  if(district == null) ... else
+			
+
+       	}); //end  $('#street').on
+
+</script>
 
 <!-- Вычисление даты для пользователя из даты полученной из базы данных -->
 <script type="text/javascript">
@@ -773,10 +1287,8 @@
 	});
 </script>
 
-
-
+<!-- Связь конечной даты с установленным периодом публикации услуги -->
 <script type="text/javascript">
-/*Связь конечной даты с установленным периодом публикации услуги*/   
 	$('#period').change(function(){
 		
 		function formatDate(date) {
@@ -842,11 +1354,30 @@
 				});
 			};
 		$('#price_start').forceNumbericOnly();
+		$('#price_current').forceNumbericOnly();
+		$('#price_buy_now').forceNumbericOnly();
+		$('#price_sell_now').forceNumbericOnly();
+		$('#price_lower').forceNumbericOnly();
+		$('#bet_step').forceNumbericOnly();
+		$('#number_total').forceNumbericOnly();
+		
+		//Функция отсекающая при вводе все кроме цифр и запятой (десятичные дроби)
+		$.fn.forceDecimalOnly = function() {
+			return this.each(function()
+			{
+			    $(this).keydown(function(e)
+			    {
+			        var key = e.charCode || e.keyCode || 0;
+			        return ( key == 8 || key == 9 || key == 46 ||(key >= 37 && key <= 40) ||(key >= 48 && key <= 57) ||(key >= 96 && key <= 105) || key == 188 || key == 110  ); 
+			        });
+			});
+		};
+		$('#duration').forceDecimalOnly();
 	});
 </script>
 
+<!-- Проверка типа аукциона и приведние страницы в соответствие с ним -->
 <script type="text/javascript">
-		// Проверка типа аукциона и приеведние страницы в соответствие с ним
 		jQuery(document).ready(function($){
 			var BID = $("#bidding_type").val();
 			if(BID){
@@ -954,4 +1485,248 @@
 		
 	});
 </script>
+
+<!-- Если курсор мышки будет наведен на города, улицы районы, дома -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        
+        //
+        $("#city_title").css("display", "inline-block");
+        $("#district_title").css("display", "inline-block");
+        $("#street_title").css("display", "inline-block");
+        $("#house_title").css("display", "inline-block");
+        //Показать поле ввода района, если он есть для данной записи в базе
+        var district0 = $("#district").val();
+        if(district0){
+			$("#district_all").css("display", "inline-block");
+		}
+        
+        //Курсор мышки - на городе
+        $('#city_title').bind('mouseover', function(){
+		    $("#city_title").css("display", "none");
+		    $("#city_v").css("display", "inline-block");
+		    $("#city_v").addClass('form-control');
+		    $("#city_v").addClass('select2');
+        
+        	var region = $("#region").val();  
+        	/*Связанные списки областей, городов, районов, домов*/  
+            $.ajax({
+               type:'GET',
+               url: "{{url('/admin/services/edit/getcities')}}?region="+region,
+               success:function(res){               
+                if(res){
+                    $("#city_v").empty();
+                    $("#district_v").empty();
+                    $("#street_v").empty();
+                    $("#house_v").empty();
+                    $("#city_v").append('<option value="">- выберете город -</option>');
+                    $.each(res,function(id, value){
+                        $("#city_v").append('<option value="'+value+'">'+value+'</option>');
+                    });
+
+                }else{
+                   $("#city_v").empty();
+                   $("#district_v").empty();
+                   $("#street_v").empty();
+                   $("#house_v").empty();
+                } //end if(res) ... else
+               } //end success:function(res)
+            }); //end $.ajax
+		}); //end $('#city_title').bind
+
+		//Курсор мышки - на районе
+        $('#district_title').bind('mouseover', function(){
+		    $("#district_title").css("display", "none");
+		    $("#district_v").css("display", "inline-block");
+		    $("#district_v").addClass('form-control');
+		    $("#district_v").addClass('select2');
+        
+        	var region = $("#region").val();  
+        	var city = $("#city").val();
+        	/*Связанные списки областей, городов, районов, домов*/  
+            $.ajax({
+               type:'GET',
+               url:"{{url('/admin/services/edit/getdistricts')}}?city="+city+"&region="+region,
+               success:function(res){               
+                if(res){
+                    $("#district_all").css("display", "inline-block");
+	                $("#district_v").empty();
+	                $("#street_v").empty();
+	                $("#house_v").empty();
+	                $("#district_v").append('<option value="">- выберете район -</option>');
+	                $.each(res,function(id,value){
+	                    $("#district_v").append('<option value="'+value+'">'+value+'</option>');
+	                });
+
+                }else{
+                   $("#district_v").empty();
+                   $("#district_v").val('');
+//                 $("#district_er").empty();
+//				   $("#district_er").val(1);
+                   $("#street_v").empty();
+                   $("#district_all").css("display", "none");
+                } //end if(res) ... else
+               } //end success:function(res)
+            }); //end $.ajax
+		}); //end $('#district_title').bind
+
+		//Курсор мышки - на улице
+		$('#street_title').bind('mouseover', function(){
+		    $("#street_title").css("display", "none");
+		    $("#street_v").css("display", "inline-block");
+		    $("#street_v").addClass('form-control');
+		    $("#street_v").addClass('select2');
+		    
+		    //Связанные списки городов и районов (разделить города с одинаковым названием), городов и улиц (когда город один в области)
+		    var region = $("#region").val();
+		    var city = $("#city").val();
+			$.ajax({
+	               type:"GET",
+	               url:"{{url('/admin/services/edit/getdistricts')}}?city="+city+"&region="+region,
+	               success:function(res){               
+			            if(res[1]){
+			                $("#district_all").css("display", "inline-block");
+			                $("#district_v").empty();
+			                $("#street_v").empty();
+			                $("#house_v").empty();
+			                $("#district_v").append('<option value="">- выберете район -</option>');
+			                $.each(res,function(id,value){
+			                    $("#district_v").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   //Если такой город есть только в одном из районов области - приступаем к выводу перечней улиц
+					            $.ajax({
+					               type:"GET",
+					               url:"{{url('/admin/services/edit/getstreets')}}?city="+city+"&region="+region,
+					               success:function(res1){               
+					                if(res1){
+					                    $("#district_v").empty();
+					                    $("#district_v").val('');
+					                    $("#district_all").css("display", "none");
+					                    $("#street_v").empty();
+					                    $("#house_v").empty();
+					                    $("#street_v").append('<option value="">- выберете улицу -</option>');
+					                    $.each(res1,function(id,value){
+						                        $("#street_v").append('<option value="'+value+'">'+value+'</option>');
+						                    });
+
+						                }else{
+						                   $("#district_v").empty();
+						                   $("#district_v").val('');
+						                   $("#street_v").empty();
+						                   $("#district_all").css("display", "none");
+						                } //end if(res1) ... else
+						               } //end success:function(res)
+						            }); //end $.ajax
+			                   
+			                   $("#district").empty();
+			                   $("#district").val('');
+			                   $("#street").empty();
+			                   $("#house").empty();
+			                   $("#district_all").css("display", "none");
+			                }
+		               } //end success:function(res)
+		            }); //end $.ajax
+		}); //end $('#street_title').bind
+		
+		//Если есть несколько городов с одинаковым названием в данной области
+		var district_d = $("#district").val();
+		if(district_d){		
+			//Курсор мышки - на улице (есть несколько городов с таким названием в данной области)
+			$('#street_title').bind('mouseover', function(){
+			    $("#street_title").css("display", "none");
+			    $("#street_v").css("display", "inline-block");
+			    $("#street_v").addClass('form-control');
+			    $("#street_v").addClass('select2');
+			    
+			    /*Связанные списки городов и улиц с учетом наличия в области одинаковых городов в разных районах */
+			    var district = $("#district").val();
+		        var region = $("#region").val();
+		        var city = $("#city").val();
+		        $.ajax({
+		           type:"GET",
+		           url:"{{url('/admin/services/create/getstreetd')}}?city="+city+"&region="+region+"&district="+district,
+		           success:function(res2){               
+		            if(res2){
+		                $("#house_v").empty();
+		                $("#street_v").empty();
+		                $("#street_v").append('<option value="">- выберете улицу -</option>');
+		                $.each(res2,function(id,value){
+		                    $("#street_v").append('<option value="'+value+'">'+value+'</option>');
+		                });
+
+		                }else{
+		                   $("#street_v").empty();
+		                   $("#house_v").empty();
+		                } //end if(res2) ... else
+		               } //end  success:function(res2)
+		            }); //end $.ajax
+				}); //end $('#street_title').bind
+			} //end if(district_d)
+		
+		//Курсор мышки - на номере дома
+		$('#house_title').bind('mouseover', function(){
+		    $("#house_title").css("display", "none");
+		    $("#house_v").css("display", "inline-block");
+		    $("#house_v").addClass('form-control');
+		    $("#house_v").addClass('select2');
+		
+			var street = $("#street").val();
+	        var district = $("#district").val();
+	        var region = $("#region").val();
+	        var city = $("#city").val();
+
+			if(!district){
+				if(street){
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/edit/gethouse')}}?city="+city+"&region="+region+"&street="+street,
+			           success:function(res3){               
+			            if(res3){
+			                $("#house_v").empty();
+			                $("#house_v").append('<option value="">- выберете дом -</option>');
+			                $.each(res3,function(id,value){
+			                    $("#house_v").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house_v").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house_v").empty();
+			        } //end if(street) ... else
+			}else{
+				if(street){
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/edit/gethoused')}}?city="+city+"&region="+region+"&district="+district+"&street="+street,
+			           success:function(res4){               
+			            if(res4){
+			                $("#house_v").empty();
+			                $("#house_v").append('<option value="">- выберете дом -</option>');
+			                $.each(res4,function(id,value){
+			                    $("#house_v").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house_v").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house_v").empty();
+			        } //end if(street) ... else
+			} //end  if(district == null) ... else
+		}); //end $('#house_title').bind
+
+    }); //end $(document).ready
+
+</script>
+
+
+
 @endpush

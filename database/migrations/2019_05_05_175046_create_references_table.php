@@ -17,7 +17,7 @@ class CreateReferencesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');							//Название статьи
             $table->string('slug'); 							//Слаг
-            $table->text('content'); 							//Статья
+            $table->longText('content'); 						//Статья
             $table->integer('section_ref')->nullable();			//Раздел справки
             $table->timestamps();
         });

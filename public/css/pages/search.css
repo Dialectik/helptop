@@ -1,0 +1,78 @@
+﻿.main-search {
+    z-index: 280;
+    position: relative;
+    float: left;
+    width: 100%;
+    padding-right: 55px;
+    border: solid 1px #767676;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background: #fff;
+    -webkit-box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #ffffff, inset 2px 2px 7px #f1f1f1;
+    -moz-box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #ffffff, inset 2px 2px 7px #f1f1f1;
+    box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #ffffff, inset 2px 2px 7px #f1f1f1;
+}
+.main-search select.search-type-select {
+    right: 55px;
+    background: #fff;
+    border: 0;
+    cursor: pointer;
+    color: #696969;
+    font-size: 14px;
+}
+.main-search .search-type-select {
+    position: absolute;
+    width: 120px;
+    margin: 6px;
+}
+.main-search .search-btn {
+    float: right;
+    width: 55px;
+    height: 40px;
+    margin: 0 -55px 0 0;
+    border: 0;
+    -moz-border-radius: 0 2px 2px 0;
+    border-radius: 0 2px 2px 0;
+    font-size: 0.1em;
+    color: #F0F0E9;
+    text-indent: -99999px;
+    cursor: pointer;
+    background: #F0F0E9 url(/images/home/searchicon.png) -59px 12px no-repeat;
+        background-color: #F0F0E9;
+        background-position-x: -59px;
+        background-position-y: 12px;
+        background-repeat: no-repeat;
+        background-attachment: scroll;
+        background-image: url(/images/home/searchicon.png);
+        background-size: auto;
+        background-origin: padding-box;
+        background-clip: border-box;
+        background-position: 20px;
+}
+.search-btn:hover {
+    background-color: #00FFFF;
+}
+.full-header .main-header .main-search .input-text-wrapper {
+    padding: 0 6px;
+        padding-top: 0px;
+        padding-right: 6px;
+        padding-bottom: 0px;
+        padding-left: 6px;
+}
+.main-search .input-text-wrapper {
+    float: left;
+    width: 90%;
+    padding: 0 180px 0 14px;
+        padding-top: 0px;
+        padding-right: 110px;
+        padding-bottom: 0px;
+        padding-left: 14px;
+}
+.full-header .main-header .search-bar .common {
+    width: 100%;
+    padding-right: 20px;
+}
+.main-header .common {
+    float: left;
+    width: 100%;
+}

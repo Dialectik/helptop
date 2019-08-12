@@ -38,6 +38,25 @@
 		        </div>
 		      </div>
 	        </div>
+	        
+	        <div class="box-body">
+	        	<div class="col-md-6">
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">Ключевые слова</label>
+	              <input type="text" class="form-control" id="keywords" name="keywords" placeholder="" value="{{$section->keywords}}">
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="box-body">
+	        	<div class="col-md-6">
+	            <div class="form-group">
+	              <label for="exampleInputEmail1">Описание для тега</label>
+	              <input type="text" class="form-control" id="description" name="description" placeholder="" value="{{$section->description}}">
+	            </div>
+	          </div>
+	        </div>
+	        
 	        <!-- /.box-body -->
 	        <div class="box-footer">
 	           <button class="btn btn-warning pull-right">Изменить</button>

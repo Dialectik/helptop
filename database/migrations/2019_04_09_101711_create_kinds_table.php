@@ -20,6 +20,8 @@ class CreateKindsTable extends Migration
             $table->char('code', 16);				//Код вида
             $table->integer('section_id');		//id раздела услуг
             $table->integer('category_id');		//id категории услуги
+            $table->string('keywords')->nullable(); //Ключевые слова
+            $table->string('description')->nullable();	//Описание для тега
             $table->timestamps();
         });
     }

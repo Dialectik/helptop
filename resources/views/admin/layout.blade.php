@@ -31,10 +31,14 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
   
+  	
   	<script src="/js/jquery.js"></script>
 	<script src="/js/admin.js"></script>
+	
+	
   	
   	@stack('styles')
+  	
   
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -448,7 +452,7 @@
 <script src="/plugins/ckfinder/ckfinder.js"></script>
 <script>
     $(document).ready(function(){
-        var editor = CKEDITOR.replaceAll();
+        var editor = CKEDITOR.replace( 'editor1' );
         CKFinder.setupCKEditor( editor );
     })
 

@@ -15,7 +15,7 @@ class Address extends Model
 	//РОДИТЕЛЬСКАЯ связь - услуга
     public function service()
     {
-		return $this->belongsTo(Service::class);  //принадлежит 
+		return $this->belongsTo(Service::class, 'service_id');  //принадлежит 
 	}
     
     

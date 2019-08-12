@@ -3081,6 +3081,14 @@ $(document).ready(function (){
       autoclose: true,
       format: 'dd/mm/yy'
     });
+    $('#datepicker2').datepicker({
+      autoclose: true,
+      format: 'dd/mm/yy'
+    });
+    $('#datepicker3').datepicker({
+      autoclose: true,
+      format: 'dd/mm/yy'
+    });
     //iCheck for checkbox and radio inputs
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue',

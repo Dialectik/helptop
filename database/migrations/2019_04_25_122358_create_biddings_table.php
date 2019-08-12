@@ -23,6 +23,8 @@ class CreateBiddingsTable extends Migration
             $table->integer('price_rate')->default(0);     	//Цена ставки       
             $table->datetime('date_bid_on')->nullable();   	//Дата начала торгов
             $table->datetime('date_bid_off')->nullable();   //Дата завершения торгов по данной услуге
+            $table->tinyInteger('status')->default(0);		//Статус торгов (Действующие - 1; Завершенные - 2; Аннулированные - 3)
+            $table->string('message')->nullable();			//Комментарий об отмене ставки
             $table->timestamps();
         });
     }

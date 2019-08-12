@@ -9,7 +9,7 @@ class Section extends Model
 {
     use Sluggable;
     
-    protected $fillable = ['title', 'code'];//указываем массив каких данных сохранять в таблицу при создании нового раздела
+    protected $fillable = ['title', 'code', 'keywords', 'description'];//указываем массив каких данных сохранять в таблицу при создании нового раздела
     
     	
 	//ДОЧЕРНЯЯ связь - связь раздела с категорией

@@ -24,7 +24,7 @@ class CreateServicesTable extends Migration
             $table->integer('kind_id');   					//ID вида услуг
             $table->integer('user_id');       				//ID автора услуги
             $table->char('product_code_id', 32)->nullable(); //ID товарного кода услуги
-            $table->tinyInteger('bidding_type');   			//ID Типа торгов (Бесплатная услуга, Купить сейчас, Продать сейчас, Аукцион, Тендер, Аукцион + Купить сейчас, Тендер + Продать сейчас)
+            $table->tinyInteger('bidding_type');   			//ID Типа торгов (Купить сейчас, Продать сейчас, Аукцион, Тендер, Аукцион + Купить сейчас, Тендер + Продать сейчас)
             $table->datetime('date_on')->nullable();   		//Дата добавления услуги
             $table->datetime('date_off')->nullable();   	//Дата завершения публикации услуги вычисляется путем добавления к 'date_on' значения 'period'
             $table->tinyInteger('period');             		//Период публикации услуги; устанавливается в сутках (3, 7, 14, 21, 28 дней)
@@ -34,9 +34,12 @@ class CreateServicesTable extends Migration
             $table->integer('price_sell_now')->default(0);   //Цена "Продать сразу"
             $table->integer('price_lower')->default(0);     //Нижняя граница цены (для Тендеров и Аукционов)
             $table->integer('bet_step')->nullable();     	//Шаг ставки (для Аукционов и Тендеров)
-            $table->tinyInteger('is_blurb')->default(0);   		//Наличие рекламы для услуги
+            $table->integer('blurb_type_id')->nullable();   	//ID рекламы для услуги
+            $table->integer('rate_bidding_id')->nullable();		//ID платной опции
             $table->tinyInteger('is_featured')->default(0);   	//Рекомендуемое
-            $table->tinyInteger('status')->default(1);        	//Публикуемая услуга - 1, услуга в архиве - 0
+            $table->tinyInteger('status')->default(0);        	//Публикуемая услуга - 1, услуга в архиве - 0
+            $table->integer('city_id')->nullable();				//ID первой записи в Таблице адресов для данного города
+            $table->integer('region_id')->nullable();			//ID первой записи в Таблице адресов для данной области
             $table->timestamps();
         });
     }

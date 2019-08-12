@@ -1,0 +1,16 @@
+            #menuHorizontal ul li ul li a{
+                position:relative;
+                display:block;
+                width:100%;
+                height:auto;
+             }
+            #menuHorizontal ul li ul li ul{
+                position:relative;
+				margin-left: 200px; /* Сдвигаем подменю вправо */
+    			margin-top: -6em; /* Сдвигаем подменю вверх */
+                display:none;
+                height:auto;
+                width:360px;
+             }
+            /*******показываем выпадашку при наведении ********/
+            #menuHorizontal ul li ul li:hover > ul{display:block;}

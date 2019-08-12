@@ -9,7 +9,7 @@ class Category extends Model
 {
     use Sluggable;
     
-    protected $fillable = ['title', 'code', 'section_id'];//указываем массив каких данных сохранять в таблицу при создании новой категории
+    protected $fillable = ['title', 'code', 'section_id', 'keywords', 'description'];//указываем массив каких данных сохранять в таблицу при создании новой категории
     
     //РОДИТЕЛЬСКАЯ связь - создание связи категории с разделом
     public function section()

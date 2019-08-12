@@ -1,0 +1,95 @@
+﻿<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Pages Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are used on all pages in menu and headings
+    |
+    */
+
+    'slogan' => "Everything's ",
+    'slogan_' => "possible!",
+    'home' => 'Home',
+    'language' => 'Tongue',
+    'pers_data' => 'My profile',
+    'messages' => 'Messages',
+    'reviews' => 'Reviews',
+    'rating' => 'Rating',
+    'deals' => 'Deals',
+    'my_sale_ads' => 'I sell services',
+    'my_purchase' => 'I buy services',
+    'favorites' => 'Favorites',
+    'cart' => 'My cart',
+    'score' => 'My score',
+    'biddings' => 'Biddings',
+    'blurb' => 'Blurb',
+    'buy' => 'Buy',
+    'sell' => 'Sell',
+    'buy_hint' => 'Do you want to buy or win in the auction one of the services offered on the site?',
+    'sell_hint' => 'Do you want to participate in the Tender or / and sell the service as a supplier? Choose suitable offers from the website and sell your services',
+    'sections' => 'Sections',
+    'categories' => 'Categories',
+    'kinds_sh' => 'Kinds',
+    'choose_sections' => 'Sections - choose',
+    'footer-top1' => 'Helptop is ALL services on the same site. Helptop allows you to easily and quickly find not only reliable performers and suppliers of ANY services, but also provides new opportunities for the promotion of services among consumers. With Helptop, customers save time and save money, and executors and service providers instantly find new customers and earn money on any services that are required at least for one customer.',
+    'footer-top2' => 'With Helptop - Everything is Possible! Any problem that seems unsolvable alone can be easily solved for someone who knows how. And on the Helptop service you will definitely find a supplier who knows how to solve your problem. If the list of offered services is not suitable for you - just create an offer to purchase such a service that is necessary for you. It is difficult to find the necessary service in the Internet - Create a NEW service!',
+    'footer-top3' => 'If you have the knowledge, skills, abilities, and insiders that have not yet been claimed - you are on the right track! It is on the Helptop site that you can fully realize your abilities and skills, earning money from it. Your hobbies and knowledge can become a paid job. Advertise your unique services - there are customers who need these services. In the offers to purchase services you can find service in which you can be helpful and bid. Your talents will be appreciated!',
+    'search_box' => 'Are you interested in the service ...',
+    'bidding_types' => 'bidding types',
+    'regulations' => 'Regulations',
+    'where_to_begin' => 'where to begin',
+    'type_of_bidding' => 'type of bidding',
+    'how_search' => 'How to search for a service',
+	'how_sell' => 'How to sell services',
+	'how_buy' => 'How to buy services',
+	'contacts' => 'Contacts',
+	'kinds' => 'Kinds of services',
+	'search_filters' => 'search filters',
+	'apply_filter' => 'Apply filters',
+	'service_name' => 'Service name',
+	'in_content' => 'Choose if you need to search in the service description',
+	'service_code' => 'Service code',
+	'service_code_warning' => 'If you want to cancel the search for the service product code and select other query parameters, delete the service product code and refresh the page',
+	'choose_section' => 'Choose a section',
+	'choose_category' => 'Choose a category',
+	'choose_kind' => 'Choose a kind',
+	'choose_bidding_type' => 'Select the type of bidding',
+	'choose_region' => 'All regions',
+	'choose_city' => 'Select city',
+	'choose_district' => 'Select district',
+	'choose' => 'Choose',
+	'date_un' => 'In the request, the date FROM must be earlier then the date TO. The START date of the publication of the service must be before the END date of the publication',
+	'date_on' => 'Date of LAUNCHING the publication of the service (for FROM - search for a larger date)',
+	'date_from' => 'FROM',
+	'date_to' => 'TO',
+	'date_off' => 'END date of publication of the service (for up TO - search for a smaller date)',
+	'price_all' => 'In the request, the minimum price must be less than the maximum',
+	'price_type' => 'If the type of bidding is not selected, the default price is compared only with the prices of services in Auctions and Tenders',
+	'price_f' => 'FIXED prices (for services at prices Buy now / Sell now)',
+	'price_s' => 'INITIAL prices of services (set for services in Auctions / Tenders)',
+	'min_price' => 'Minimum price',
+	'max_price' => 'Maximum price',
+	'region_service' => 'Region (address) of service',
+	'district' => 'District',
+	'city' => 'City',
+	'services_on_page' => 'Services on the page',
+	'show' => 'Show',
+	'bidding_22' => 'Buy',
+	'bidding_23' => 'To sell',
+	'bidding_bs' => 'Buy or sell',
+	'how_add' => 'How to add services',
+	'about_helptop' => 'About Helptop',
+	'agreement' => 'Agreement',
+	'personal_information' => 'Personal Information',
+	'prohibited_services' => 'Prohibited Services',
+	'tariffs' => 'Tariffs',
+	'technical_breaks' => 'Technical breaks',
+	
+    
+    
+
+];

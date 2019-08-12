@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Admin HelpTop</title>
+  <title>404</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="/css/admin.css">
@@ -46,11 +46,17 @@
         <h2 class="headline text-yellow"> 404</h2>
 
         <div class="error-content">
-          <h3><i class="fa fa-warning text-yellow"></i> Ой! Такой страницы не существует.</h3>
+          <h3><i class="fa fa-warning text-yellow"></i> @lang('errors.404_1')</h3>
 
           <p>
-            Мы не смогли найти страницу, которую вы искали.
-            Между тем, вы можете <a href="{{ route('welcome') }}">вернуться на главную</a>.
+            @lang('errors.404_2')<br>
+            @lang('errors.404_3')<a href="{{ route('welcome') }}">@lang('errors.404_4')</a>
+          </p>
+          <p></p>
+          <p>
+          	Oh! This page does not exist.<br/>
+          	We could not find the page you were looking for.<br/>
+          	Meanwhile, you can <a href="{{ route('welcome') }}">return home</a>
           </p>
 
           

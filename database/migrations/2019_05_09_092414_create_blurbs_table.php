@@ -16,11 +16,12 @@ class CreateBlurbsTable extends Migration
         Schema::create('blurbs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');							//ID пользователя, заказавшего рекламу
-            $table->integer('service_id');						//ID рекламируемой услуги
-            $table->tinyInteger('blurb_type')->nullable();		//Вид рекламы услуги
+            $table->integer('service_id')->nullable();			//ID рекламируемой услуги
+            $table->tinyInteger('blurb_type')->nullable();		//ID Вида рекламы услуги
             $table->integer('blurb_cost')->nullable();			//Стоимость рекламы
             $table->datetime('date_on_blurb')->nullable();		//Начальная дата предоставления рекламы
             $table->datetime('date_off_blurb')->nullable();		//Конечная дата предоставления рекламы
+            $table->tinyInteger('status')->default(1);			//Статус рекламы (по умолчанию 1 - действующая; 0 - архив)
             $table->timestamps();
         });
     }

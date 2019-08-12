@@ -14,7 +14,13 @@ class BiddingType extends Model
     //ДОЧЕРНЯЯ связь - с услугами
     public function services()
     {
-		return $this->hasMany(BiddingType::class, 'bidding_type');	//имеет много	
+		return $this->hasMany(Service::class, 'bidding_type');	//имеет много	
+	}
+		
+	//ДОЧЕРНЯЯ связь - с тарифами выставления
+    public function biddingRate()
+    {
+		return $this->hasMany(BiddingRate::class, 'bidding_type');	//имеет много	
 	}
 	
 	

@@ -8,7 +8,7 @@
 		 	display: none; 
 		}
 		
-		#period_un {
+		#period_un, #district_all, #address_un {
 			display: none;
 		}
 
@@ -35,6 +35,7 @@
 	<form method="POST" action="{{ route('services.store') }}" enctype="multipart/form-data"> 
 	  @csrf
 	
+
 	
       <!-- Default box -->
       <div class="box">
@@ -45,6 +46,7 @@
         
         <div class="box-body">
           <div class="col-md-9">
+            <!-- Название -->
             <div class="form-group">
               <label for="exampleInputEmail1">Название</label>
               <input type="text" class="form-control" id="title" placeholder="" name="title" value="{{old('title')}}" maxlength="240" required>
@@ -85,15 +87,15 @@
 		              </select>
 	            </div>
             </div>
-            
+
+             	<!-- Лицевая картинка услуги -->            
             <div class="form-group">
               <label for="exampleInputFile">Лицевая картинка услуги</label>
               <input type="file" id="exampleInputFile" name="image">
 
               <p class="help-block">Выберете графический файл для лицевой картинки услуги</p>
             </div>
-          </div>
-        
+          </div>  <!-- end "col-md-9" -->
         </div>  <!-- end "box-body" -->
             
             
@@ -135,7 +137,7 @@
 		        	<label for="exampleInputEmail1">Цена услуги</label>
 					<p class="help-block">Укажите начальную цену услуги</p>
 		        	
-		        	<input type="text" class="form-control" id="price_start" placeholder="" name="price_start" value="{{old('price_start')}}" >               		<span>  грн</span>  
+		        	<input type="number" min="0" class="form-control" id="price_start" placeholder="" name="price_start" value="{{old('price_start')}}" >               		<span>  грн</span>  
 		        </div>
 	        </div>
 	        
@@ -150,7 +152,7 @@
 	        <div class="col-md-4" id="price_buy_now1">    
 	            <div class="form-group">
 	              <label>Цена "Купить сразу"</label>
-		              <input type="text" class="form-control" id="price_buy_now" placeholder="" name="price_buy_now" value="{{old('price_buy_now')}}" >               		<span>  грн</span>
+		              <input type="number" min="0" class="form-control" id="price_buy_now" placeholder="" name="price_buy_now" value="{{old('price_buy_now')}}" >               		<span>  грн</span>
 	            </div>
             </div>
             
@@ -158,7 +160,7 @@
 	        <div class="col-md-4" id="price_sell_now1">    
 	            <div class="form-group">
 	              <label>Цена "Продать сразу"</label>
-		              <input type="text" class="form-control" id="price_sell_now" placeholder="" name="price_sell_now" value="{{old('price_sell_now')}}" >               		<span>  грн</span>
+		              <input type="number" min="0" class="form-control" id="price_sell_now" placeholder="" name="price_sell_now" value="{{old('price_sell_now')}}" >               		<span>  грн</span>
 	            </div>
             </div>
             
@@ -167,7 +169,7 @@
 	        <div class="col-md-4" id="price_lower1">    
 	            <div class="form-group">
 	              <label>Нижняя граница цены</label>
-		              <input type="text" class="form-control" id="price_lower" placeholder="" name="price_lower" value="{{old('price_lower')}}" >               		<span>  грн</span>
+		              <input type="number" min="0" class="form-control" id="price_lower" placeholder="" name="price_lower" value="{{old('price_lower')}}" >               		<span>  грн</span>
 	            </div>
             </div>
             
@@ -175,13 +177,12 @@
 	        <div class="col-md-4" id="bet_step1">    
 	            <div class="form-group">
 	              <label>Шаг ставки</label>
-		              <input type="text" class="form-control" id="bet_step" placeholder="" name="bet_step" value="{{old('bet_step')}}" >               		<span>  грн</span>
+		              <input type="number" min="0" class="form-control" id="bet_step" placeholder="" name="bet_step" value="{{old('bet_step')}}" >               		<span>  грн</span>
 	            </div>
             </div>
              
           </div>  <!-- end "col-md-9" -->
-        
-        </div>  <!-- end "box-body" -->
+         </div>  <!-- end "box-body" -->
         
         
         
@@ -192,7 +193,7 @@
 	        <div class="col-md-4">
 	            <div class="form-group">
 	              <label>Количество единиц (сеансов) услуги в наличии</label>
-		              <input type="number" class="form-control" id="number_total" placeholder="" name="number_total" value="{{old('number_total')}}" required>               		<span>  единиц</span>
+		              <input type="number" min="0" class="form-control" id="number_total" placeholder="" name="number_total" value="{{old('number_total')}}" required>               		<span>  единиц</span>
 	            </div>
 	         </div>
             
@@ -215,18 +216,26 @@
 	            </div>
             </div>
             
-
+            <!-- Статус услуги искомой (опубликованные / все (вкл. архивные)-->
+		     <div class="form-group">
+				<p class="help-block">Снять, если нужно отправить услугу в архивные (не опубликованные)</p>
+				<label>
+					<input type="checkbox" class="minimal" name="status" id="status" checked>
+				</label>
+				<label>
+					Опубликовать услугу
+				</label>
+			</div>
             
-            
+     
           </div>  <!-- end "col-md-9" -->
-        
         </div>  <!-- end "box-body" -->
             
       
             
             
             <p></p>
-            <p></p>
+            <p></p>  <!-- Даты публикации -->
         <div class="box-body">
           <div class="col-md-9">  
                  <!-- Date -->
@@ -280,7 +289,7 @@
 	            </div>
             </div>
 
-
+			<!-- ФУНКЦИЯ автоматического формирования кода перенесена в КОНТРОЛЛЕР ServicesController
 		     <div class="box-body">   
 		         <div class="col-md-4">  
 			        <div class="form-group">
@@ -290,11 +299,8 @@
 			          <input type="hidden" class="form-control" id="product_code_id" name="product_code_id">
 			        </div>
 			     </div>
-			     
-			     
-		    
 		    </div>
-		
+			-->
 
             <!-- checkbox -->
             <div class="form-group">
@@ -314,9 +320,19 @@
             <div class="form-group">
               <label for="exampleInputEmail1">Краткое описание услуги</label>
               <p class="help-block">Опишите кратко предлагаемую услугу для представления ее в перечнях услуг при поиске</p>
-              <textarea name="description" id="description" cols="30" rows="10" class="form-control" maxlength="300" >{{old('description')}}</textarea>
+              <textarea name="description" id="description" cols="30" rows="10" class="form-control" maxlength="300" required >{{old('description')}}</textarea>
 	        </div>
 	      </div>
+	      
+	      <!-- Рекламный слоган для услуги -->
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Рекламный слоган для услуги</label>
+              <p class="help-block">Если Вы планируете рекламировать данную услугу - придумайте сразу для нее рекламный слоган, который будет отображаться на заглавной странице</p>
+              <textarea name="slogan" id="slogan" cols="10" rows="5" class="form-control" maxlength="70"  >{{old('slogan')}}</textarea>
+	        </div>
+	      </div>
+	      
           <!-- Полное описание услуги -->
           <div class="col-md-10">
             <div class="form-group">
@@ -331,10 +347,10 @@
       
       
         <p></p>
-        <p></p>
+        <p></p>  <!-- Объем услуги и Дополнительные материалы -->
 		<div class="box-body">
 			<div class="col-md-9">  
-			<!-- Объем и структура услуги -->
+				<!-- Объем и структура услуги -->
 				<div class="col-md-6">
 		            <div class="form-group">
 		              <label for="exampleInputEmail1">Объем и структура услуги</label>
@@ -342,8 +358,7 @@
 		              <textarea name="value_service" id="value_service" cols="30" rows="10" class="form-control" >{{old('value_service')}}</textarea>
 			        </div>
 				</div>
-			
-			<!-- Дополнительные материалы -->			
+				<!-- Дополнительные материалы -->			
 				<div class="col-md-6">
 		            <div class="form-group">
 		              <label for="exampleInputEmail1">Дополнительные материалы</label>
@@ -351,14 +366,13 @@
 		              <textarea name="add_materials" id="add_materials" cols="30" rows="10" class="form-control" >{{old('add_materials')}}</textarea>
 			        </div>
 				</div>
-      
 			</div>  <!-- end "col-md-9" -->
 		</div>  <!-- end "box-body" -->
 		
 		
 		
 		<p></p>
-        <p></p>
+        <p></p> <!-- Дни до начального и конечного срока предоставления услуги -->
         <div class="box-body">
           <div class="col-md-9">  
             <!-- Date period_initial-->
@@ -417,12 +431,178 @@
 		              <textarea name="schedule" id="schedule" cols="30" rows="10" class="form-control" >{{old('schedule')}}</textarea>
 			        </div>
 				</div>
-
-
-
 			</div>  <!-- end "col-md-9" -->
 		</div>  <!-- end "box-body" -->      
 
+		
+		<p></p>
+        <p></p>  <!-- Длительность и результат -->
+		<div class="box-body">
+			<div class="col-md-9">  
+				<!-- Длительность процесса предоставления услуги в часах-->
+				<div class="col-md-3">
+		            <div class="form-group">
+						<label>Длительность процесса предоставления услуги в часах</label>
+						<input type="number" step="0.1" min="0" class="form-control" id="duration" placeholder="" name="duration" value="{{old('duration')}}">               		<span>  часов</span>
+		            </div>
+				</div>
+				<!-- Результат получения услуги-->
+				<div class="col-md-9">
+		            <div class="form-group">
+						<label>Результат получения услуги</label>
+						<input type="text" class="form-control" id="result" placeholder="" name="result" value="{{old('result')}}" required>      						</div>
+				</div>
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->		
+
+
+		<p></p>
+        <p></p>  <!-- Доступность и условия оплаты услуги-->
+		<div class="box-body">
+			<div class="col-md-9">
+				<!-- Доступность услуги-->
+				<div class="col-md-4">
+		            <div class="form-group">
+		              <label>Доступность услуги</label>
+		              <p class="help-block">Если предполагается, что услуга доступна и может быть предоставлена в любой момент после заключения сделки - выбирайте - "В наличии", если нет - "Под заказ" (тогда в дополниельной информации нужно указать возможные сроки ожидания)</p>
+		                <select class="form-control select2" name="availability" id="availability" style="width: 100%;" required>
+			              	<option style="width: 100%" value="">- выберите доступность -</option>
+			              	<option style="width: 100%" value="1">В наличии</option>
+			              	<option style="width: 100%" value="2">Под заказ</option>
+		               </select>
+		            </div>
+				</div>
+				<!-- Условия оплаты-->
+		        <div class="col-md-4">
+		            <div class="form-group">
+		              <label>Условия оплаты</label>
+		              <p class="help-block">Необходимо указать сроки и этапность оплаты услуги</p>
+		                <select class="form-control select2" name="terms_payment" id="terms_payment" style="width: 100%;" required>
+			              	<option style="width: 100%" value="">- выберите срок -</option>
+			              	<option style="width: 100%" value="1">Предоплата</option>
+			              	<option style="width: 100%" value="2">Оплата после/в момент получения услуги</option>
+			              	<option style="width: 100%" value="3">Аванс</option>
+			              	<option style="width: 100%" value="4">Поэтапная оплата</option>
+			              	<option style="width: 100%" value="5">Любой способ оплаты</option>
+		               </select>
+		            </div>
+				</div>
+				
+		        <div class="col-md-4">    
+		            <!-- Расширяемая услуга -->
+		            <div class="form-group">
+		              <label>
+		                <input type="checkbox" class="minimal" name="expandable" id="expandable" value="1">
+		              </label>
+		              <label>
+		                Расширяемая услуга
+		              </label>
+		              <p class="help-block">Если до начала предоставления услуги не могут быть предусмотрена необходимость применения дополнительных материалов и услуг не входящих в начальную стоимость услуги</p
+		            </div>
+
+		            <!-- Масштабируемая услуга -->
+		            <div class="form-group">
+		              <label>
+		                <input type="checkbox" class="minimal" name="scalable" id="scalable" value="1">
+		              </label>
+		              <label>
+		                Масштабируемая услуга
+		              </label>
+		              <p class="help-block">Если услуга может быть выражена в количественных единицах (например на 1 м кв., 1 точка подключения, 1 стр.)</p
+		            </div>
+		        </div>
+		        
+				
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->		
+
+        <p></p>
+        <p></p>  <!-- Дополнительные условия -->
+		<div class="box-body">
+			<div class="col-md-9">  
+				<!-- Условия предоставления -->
+				<div class="col-md-6">
+		            <div class="form-group">
+		              <label for="exampleInputEmail1">Условия предоставления</label>
+		              <p class="help-block">Изложите какие условия должен соблюсти контрагент для успешного прохождения процесса предоставления услуги и ее оплаты</p>
+		              <textarea name="terms_provision" id="terms_provision" cols="30" rows="10" class="form-control" >{{old('terms_provision')}}</textarea>
+			        </div>
+				</div>
+				<!-- Дополнительные условия -->			
+				<div class="col-md-6">
+		            <div class="form-group">
+		              <label for="exampleInputEmail1">Дополнительные условия</label>
+		              <p class="help-block">Опишите Дополнительные условия, которые нужно учесть контрагенту перед участием в торгах по данной услуге</p>
+		              <textarea name="add_terms" id="add_terms" cols="30" rows="10" class="form-control" >{{old('add_terms')}}</textarea>
+			        </div>
+				</div>
+			</div>  <!-- end "col-md-9" -->
+		</div>  <!-- end "box-body" -->
+		
+		<p></p>
+        <p></p>  <!-- Адрес предоставления услуги -->
+		<div class="box-body">
+			<label>Основной Адрес предоставления услуги (дополнительные - укажите в дополнительных условиях)</label>
+			<div class="col-md-12">
+	            <!-- Область -->
+		        <div class="col-md-2">
+		            <div class="form-group">
+		              <label>Область</label>
+			              <select class="form-control select2" name="region" id="region" style="width: 100%;" >
+				              	<option value="">- выберите область -</option>
+				              	@foreach($address as $addr)
+			                		<option value="{{$addr->region}}">{{$addr->region}}</option>
+			              		@endforeach
+			              </select>
+		            </div>
+		         </div>
+	            <!-- Город -->
+		        <div class="col-md-3">
+		            <div class="form-group">
+		              <label>Город</label>
+			              <select class="form-control select2" name="city" id="city" style="width: 100%;" >
+
+			              </select>
+		            </div>
+	            </div>
+				<!-- Район -->
+		        <div class="col-md-2" id="district_all">    
+		            <div class="form-group">
+		              <label>Район</label>
+			              <select class="form-control select2" name="district" id="district" style="width: 100%;">
+				              	
+			              </select>
+		            </div>
+	            </div>
+	            <!-- Улица -->
+		        <div class="col-md-2">    
+		            <div class="form-group">
+		              <label>Улица</label>
+			              <select class="form-control select2" name="street" id="street" style="width: 100%;">
+				              	
+			              </select>
+		            </div>
+	            </div>
+	            <!-- Дом -->
+		        <div class="col-md-2">    
+		            <div class="form-group">
+		              <label>Дом</label>
+			              <select class="form-control select2" name="house" id="house" style="width: 100%;">
+				              	
+			              </select>
+		            </div>
+	            </div>
+	            
+	            <!-- Комментарий по содержанию полей адреса -->
+		        <div class="col-md-8" id="address_un">
+			        <div class="form-group alert alert-danger" >
+						Заполните пожалуйста все поля адреса!			
+			        </div>
+		        </div>
+
+
+			</div>  <!-- end "col-md-12" -->
+		</div>  <!-- end "box-body" -->
 
         
         <!-- /.box-body -->
@@ -441,8 +621,8 @@
 
 @push('scripts')
 
+<!-- Показ предупреждений о корректности выбора сроков предоставления услуги -->
 <script type="text/javascript">
-    /*Связанные списки разделов и категорий*/
     jQuery(document).ready(function($){
 		var $pin0 = $("#period_initial").val();
 		var $pde0 = $("#period_deadline").val();
@@ -473,9 +653,9 @@
 	});
 </script>
 
+<!-- Связанные списки разделов и категорий -->
 <script type="text/javascript">
-    /*Связанные списки разделов и категорий*/
-    $('#section_id').change(function(){
+     $('#section_id').change(function(){
         var sectionID = $(this).val();    
         if(sectionID){
             $.ajax({
@@ -485,7 +665,7 @@
                 if(res){
                     $("#category_id").empty();
                     $("#kind_id").empty();
-                    $("#category_id").append('<option>- выберете категорию -</option>');
+                    $("#category_id").append('<option value="">- выберете категорию -</option>');
                     $.each(res,function(key,value){
                         $("#category_id").append('<option value="'+key+'">'+value+'</option>');
                     });
@@ -494,7 +674,7 @@
                    $("#category_id").empty();
                    $("#kind_id").empty();
                    $("#c_code").empty();
-                   $("#product_code_id").empty();
+                   //$("#product_code_id").empty();
                 }
                }
             });
@@ -502,7 +682,7 @@
             $("#category_id").empty();
             $("#kind_id").empty();
             $("#c_code").empty();
-            $("#product_code_id").empty();
+            //$("#product_code_id").empty();
         }      
        });
         
@@ -516,7 +696,7 @@
                success:function(res){               
                 if(res){
                     $("#kind_id").empty();
-                    $("#kind_id").append('<option>- выберете вид услуг -</option>');
+                    $("#kind_id").append('<option value="">- выберете вид услуг -</option>');
                     $.each(res,function(key,value){
                         $("#kind_id").append('<option value="'+key+'">'+value+'</option>');
                     });
@@ -524,21 +704,21 @@
 	                }else{
 	                   $("#kind_id").empty();
 	                   $("#c_code").empty();
-	                   $("#product_code_id").empty();
+	                   //$("#product_code_id").empty();
 	                }
 	               }
 	            });
 	        }else{
 	            $("#kind_id").empty();
 	            $("#c_code").empty();
-	            $("#product_code_id").empty();
+	            //$("#product_code_id").empty();
 	        }
 
        	});
        
        
-       /*Назначить товарный код услуги для данного вида услуг - следующий по списку*/        
-        $('#kind_id').change(function(){
+       /*Назначить товарный код услуги для данного вида услуг - следующий по списку - ТЕПЕРЬ ФОРМИРУЕСТСЯ в контроллере ServicesController*/        
+/*        $('#kind_id').change(function(){
 	        var kindID = $(this).val();
 	            
 	        if(kindID){
@@ -547,29 +727,29 @@
 	               url:"{{url('/admin/services/create/getsercode')}}?kind_id="+kindID,
 	               success:function(res){               
 	                if(res){
-	                    $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+	                    $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 	                    $("#c_code").empty();
 	                    $("#c_code").val(res.substr(0, 6) + '-' + res.substr(6, 4));
-	                    $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+	                    $("#c_code").prop("disabled", true);  // Блокировка инпута 
 	                    $("#product_code_id").empty();
 	                    $("#product_code_id").val(res);
 		            }else{
-		                   $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+		                   $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 		                   $("#c_code").empty();
-		                   $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+		                   $("#c_code").prop("disabled", true);  // Блокировка инпута 
 		                   $("#product_code_id").empty();
 		                }
 		               }
 		            });
 		        }else{
-		            $("#c_code").prop("enabled", true);   /* Разблокировка инпута */
+		            $("#c_code").prop("enabled", true);   // Разблокировка инпута 
 		            $("#c_code").empty();
-		            $("#c_code").val('');					/* Очистка инпута */
-		            $("#c_code").prop("disabled", true);  /* Блокировка инпута */
+		            $("#c_code").val('');					// Очистка инпута 
+		            $("#c_code").prop("disabled", true);  // Блокировка инпута 
 		            $("#product_code_id").empty();
-		            $("#product_code_id").val('');					/* Очистка инпута */
+		            $("#product_code_id").val('');					// Очистка инпута 
 		        }
-       	});
+       	});    */
        
     
     /*Связь конечной даты с установленным периодом публикации услуги*/   
@@ -631,9 +811,11 @@
 
 	       
 </script>
+
 <!-- Ограничение поля ввода цены услуги ЦИФРАМИ -->
 <script type="text/javascript">
 	jQuery(document).ready(function($){
+		//Функция отсекающая при вводе все кроме цифр
 		$.fn.forceNumbericOnly = function() {
 			return this.each(function()
 			{
@@ -642,13 +824,39 @@
 			        var key = e.charCode || e.keyCode || 0;
 			        return ( key == 8 || key == 9 || key == 46 ||(key >= 37 && key <= 40) ||(key >= 48 && key <= 57) ||(key >= 96 && key <= 105)   ); 
 			        });
-				});
-			};
+			});
+		};
 		$('#price_start').forceNumbericOnly();
+		$('#price_current').forceNumbericOnly();
+		$('#price_buy_now').forceNumbericOnly();
+		$('#price_sell_now').forceNumbericOnly();
+		$('#price_lower').forceNumbericOnly();
+		$('#bet_step').forceNumbericOnly();
+		$('#number_total').forceNumbericOnly();
+		
+		//Функция отсекающая при вводе все кроме цифр и запятой (десятичные дроби)
+		$.fn.forceDecimalOnly = function() {
+			return this.each(function()
+			{
+			    $(this).keydown(function(e)
+			    {
+			        var key = e.charCode || e.keyCode || 0;
+			        return ( key == 8 || key == 9 || key == 46 ||(key >= 37 && key <= 40) ||(key >= 48 && key <= 57) ||(key >= 96 && key <= 105) || key == 188 || key == 110  ); 
+			        });
+			});
+		};
+		$('#duration').forceDecimalOnly();
+		
 	});
+	
+	//Функция отображения только 2-х знаков после запятой - НЕ РАБОТАЕТ***
+	$( '#duration' ).blur(function() {
+    	this.value = parseFloat(this.value).toFixed(2);
+	});
+	
 </script>
 
-
+<!-- Проверка типа аукциона и приеведние страницы в соответствие с ним -->
 <script type="text/javascript">
 
 		$('#bidding_type').change(function(){
@@ -666,52 +874,263 @@
 			$("#bet_step1").css("display", "none");
            	$("#price_start1").css("display", "none");
 		
-		if(biddingID){
-			switch (biddingID) {
-			  case '2':
-			    $("#bidding_12").css("display", "inline-block");
-			    $("#price_buy_now1").css("display", "inline-block");
-			    $("#price_start1").css("display", "none");
-			    break;
-			  case '3':
-			    $("#bidding_13").css("display", "inline-block");
-			    $("#price_sell_now1").css("display", "inline-block");
-			    $("#price_start1").css("display", "none");
-			    break;
-			  case '4':
-			    $("#bidding_14").css("display", "inline-block");
-			    $("#price_lower1").css("display", "inline-block");
-			    $("#bet_step1").css("display", "inline-block");
-			    $("#price_start1").css("display", "inline-block");
-			    break;
-			  case '5':
-			    $("#bidding_15").css("display", "inline-block");
-			    $("#price_lower1").css("display", "inline-block");
-			    $("#bet_step1").css("display", "inline-block");
-			    $("#price_start1").css("display", "inline-block");
-			    break;
-			  case '6':
-			    $("#bidding_16").css("display", "inline-block");
-			    $("#price_buy_now1").css("display", "inline-block");
-			    $("#price_lower1").css("display", "inline-block");
-			    $("#bet_step1").css("display", "inline-block");
-			    $("#price_start1").css("display", "inline-block");
-			    break;
-			  case '7':
-			    $("#bidding_17").css("display", "inline-block");
-			    $("#price_sell_now1").css("display", "inline-block");
-			    $("#price_lower1").css("display", "inline-block");
-			    $("#bet_step1").css("display", "inline-block");
-			    $("#price_start1").css("display", "inline-block");
-			    break;
-			  default:
-			    break;
+			if(biddingID){
+				switch (biddingID) {
+				  case '2':
+				    $("#bidding_12").css("display", "inline-block");
+				    $("#price_buy_now1").css("display", "inline-block");
+				    $("#price_start1").css("display", "none");
+				    break;
+				  case '3':
+				    $("#bidding_13").css("display", "inline-block");
+				    $("#price_sell_now1").css("display", "inline-block");
+				    $("#price_start1").css("display", "none");
+				    break;
+				  case '4':
+				    $("#bidding_14").css("display", "inline-block");
+				    $("#price_lower1").css("display", "inline-block");
+				    $("#bet_step1").css("display", "inline-block");
+				    $("#price_start1").css("display", "inline-block");
+				    break;
+				  case '5':
+				    $("#bidding_15").css("display", "inline-block");
+				    $("#price_lower1").css("display", "inline-block");
+				    $("#bet_step1").css("display", "inline-block");
+				    $("#price_start1").css("display", "inline-block");
+				    break;
+				  case '6':
+				    $("#bidding_16").css("display", "inline-block");
+				    $("#price_buy_now1").css("display", "inline-block");
+				    $("#price_lower1").css("display", "inline-block");
+				    $("#bet_step1").css("display", "inline-block");
+				    $("#price_start1").css("display", "inline-block");
+				    break;
+				  case '7':
+				    $("#bidding_17").css("display", "inline-block");
+				    $("#price_sell_now1").css("display", "inline-block");
+				    $("#price_lower1").css("display", "inline-block");
+				    $("#bet_step1").css("display", "inline-block");
+				    $("#price_start1").css("display", "inline-block");
+				    break;
+				  default:
+				    break;
+				}
 			}
-		}
 		
 	});
 </script>
 
+<!-- Подключение текстового редактора -->
+<script>
+    $(document).ready(function(){
+        var editor_sc = CKEDITOR.replaceAll();
+        CKFinder.setupCKEditor( editor_sc );
+    })
+</script>
 
+<!-- Связанные списки областей, городов, районов, домов -->
+<script type="text/javascript">
+    //Связанные списки областей, городов, районов, домов
+    $('#region').change(function(){
+        var region = $(this).val();    
+        if(region){
+        	$("#address_un").css("display", "inline-block");
+            $.ajax({
+               type:'GET',
+               url: "{{url('/admin/services/create/getcities')}}?region="+region,
+               success:function(res){               
+                if(res){
+                    $("#city").empty();
+                    $("#district").empty();
+                    $("#street").empty();
+                    $("#house").empty();
+                    $("#city").append('<option value="">- выберете город -</option>');
+                    $.each(res,function(id, value){
+                        $("#city").append('<option value="'+value+'">'+value+'</option>');
+                    });
+
+                }else{
+                   $("#city").empty();
+                   $("#district").empty();
+                   $("#street").empty();
+                   $("#house").empty();
+                }
+               }
+            });
+        }else{
+            $("#city").empty();
+            $("#district").empty();
+            $("#street").empty();
+            $("#house").empty();
+        }      
+       });
+        
+        /*Связанные списки городов и районов (разделить города с одинаковым названием), городов и улиц (когда город один в области)*/
+        $('#city').on('change',function(){
+        var city = $(this).val();    
+        var region = $("#region").val();    
+        if(city){
+        	$("#address_un").css("display", "inline-block");
+            $.ajax({
+               type:"GET",
+               url:"{{url('/admin/services/create/getdistricts')}}?city="+city+"&region="+region,
+               success:function(res){               
+		            if(res[1]){
+		                $("#district_all").css("display", "inline-block");
+		                $("#district").empty();
+		                $("#street").empty();
+		                $("#district").append('<option value="">- выберете район -</option>');
+		                $.each(res,function(id,value){
+		                    $("#district").append('<option value="'+value+'">'+value+'</option>');
+		                });
+
+		                }else{
+		                   //Если такой город есть только в одном из районов области - приступаем к выводу перечней улиц
+				            $.ajax({
+				               type:"GET",
+				               url:"{{url('/admin/services/create/getstreets')}}?city="+city+"&region="+region,
+				               success:function(res1){               
+				                if(res1){
+				                    $("#district").empty();
+				                    $("#district").val('');
+				                    $("#district_all").css("display", "none");
+				                    $("#street").empty();
+				                    $("#house").empty();
+				                    $("#street").append('<option value="">- выберете улицу -</option>');
+				                    $.each(res1,function(id,value){
+					                        $("#street").append('<option value="'+value+'">'+value+'</option>');
+					                    });
+
+					                }else{
+					                   $("#district").empty();
+					                   $("#district").val('');
+					                   $("#street").empty();
+					                   $("#district_all").css("display", "none");
+					                } //end if(res1) ... else
+					               } //end success:function(res)
+					            }); //end $.ajax
+		                   
+		                   $("#district").empty();
+		                   $("#district").val('');
+		                   $("#street").empty();
+		                   $("#house").empty();
+		                   $("#district_all").css("display", "none");
+		                }
+	               } //end success:function(res)
+	            });
+	        }else{
+	            $("#district").empty();
+	            $("#district").val('');
+	            $("#street").empty();
+	            $("#house").empty();
+	            $("#district_all").css("display", "none");
+	        }
+       	}); //end  $('#city').on
+       	
+       	
+       	/*Связанные списки городов и улиц с учетом наличия в области одинаковых городов в разных районах */        
+        $('#district').on('change',function(){
+	        var district = $(this).val();
+	        var region = $("#region").val();
+	        var city = $("#city").val();
+
+			if(district){
+				$("#address_un").css("display", "inline-block");
+		        $.ajax({
+		           type:"GET",
+		           url:"{{url('/admin/services/create/getstreetd')}}?city="+city+"&region="+region+"&district="+district,
+		           success:function(res2){               
+		            if(res2){
+		                $("#house").empty();
+		                $("#street").empty();
+		                $("#street").append('<option value="">- выберете улицу -</option>');
+		                $.each(res2,function(id,value){
+		                    $("#street").append('<option value="'+value+'">'+value+'</option>');
+		                });
+
+		                }else{
+		                   $("#street").empty();
+		                   $("#house").empty();
+		                } //end if(res2) ... else
+		               } //end  success:function(res2)
+		            }); //end $.ajax
+	        }else{
+	            $("#street").empty();
+	            $("#house").empty();
+	        } //end if(district) ... else
+       	}); //end  $('#district').on
+       	
+       	/*Связанные списки улиц и домов */        
+        $('#street').on('change',function(){
+	        var street = $(this).val();
+	        var district = $("#district").val();
+	        var region = $("#region").val();
+	        var city = $("#city").val();
+
+			if(!district){
+				if(street){
+					$("#address_un").css("display", "inline-block");
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/create/gethouse')}}?city="+city+"&region="+region+"&street="+street,
+			           success:function(res3){               
+			            if(res3){
+			                $("#house").empty();
+			                $("#house").append('<option value="">- выберете дом -</option>');
+			                $.each(res3,function(id,value){
+			                    $("#house").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house").empty();
+			        } //end if(street) ... else
+			}else{
+				if(street){
+					$("#address_un").css("display", "inline-block");
+			        $.ajax({
+			           type:"GET",
+			           url:"{{url('/admin/services/create/gethoused')}}?city="+city+"&region="+region+"&district="+district+"&street="+street,
+			           success:function(res4){               
+			            if(res4){
+			                $("#house").empty();
+			                $("#house").append('<option value="">- выберете дом -</option>');
+			                $.each(res4,function(id,value){
+			                    $("#house").append('<option value="'+value+'">'+value+'</option>');
+			                });
+
+			                }else{
+			                   $("#house").empty();
+			                } //end if(res3) ... else
+			               } //end  success:function(res2)
+			            }); //end $.ajax
+			        }else{
+			            $("#house").empty();
+			        } //end if(street) ... else
+			} //end  if(district == null) ... else
+			
+
+       	}); //end  $('#street').on
+
+</script>
+
+<!-- Если заполнены не все поля адреса, выводится предупреждение -->
+<script type="text/javascript">
+    $(document).ready(function(){
+        if(!$("#region").val() || !$("#city").val() || !$("#street").val() || !$("#house").val()){
+			$("#address_un").css("display", "inline-block");
+		}
+	});
+	
+	$('#house').change(function(){
+		if($("#house").val()){
+			$("#address_un").css("display", "none");
+		}
+	});
+</script>
 
 @endpush

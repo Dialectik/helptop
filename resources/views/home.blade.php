@@ -1,25 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.app_a')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                	@lang('auth.dashboard')
-                </div>
+	<section id="form"><!--form-->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8">
+					<div >
+	                	<h2 class="heading">@lang('auth.dashboard')</h2>
+	                </div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+	                <div class="register-req">
+	                    @if (session('status'))
+	                        <div class="alert alert-success" role="alert">
+	                            {{ session('status') }}
+	                        </div>
+	                    @endif
 
-                    @lang('auth.logged')
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	                    @lang('auth.logged')
+	                </div>
+				</div>
+			</div>
+		</div>
+	</section><!--/form-->
+
 @endsection

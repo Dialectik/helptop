@@ -18,10 +18,10 @@ class CreatePersonalsTable extends Migration
             $table->integer('user_id');							//ID пользователя
             $table->string('patronymic')->nullable();			//Отчетво пользователя
             $table->string('last_name')->nullable();			//Фамилия пользователя
-            $table->tinyInteger('sex')->default(0);				//Пол (не указан – 0)
-            $table->tinyInteger('marital_status')->default(0);	//Семейное положение
-            $table->tinyInteger('children')->default(0);		//Наличие детей
-            $table->tinyInteger('car')->default(0);				//Наличие автомобиля
+            $table->tinyInteger('sex')->nullable();				//Пол (не указан – 0)
+            $table->tinyInteger('marital_status')->nullable();	//Семейное положение
+            $table->tinyInteger('children')->nullable();		//Наличие детей
+            $table->tinyInteger('car')->nullable();				//Наличие автомобиля
             $table->date('date_birthday')->nullable();			//День рождения
             $table->text('description')->nullable();      		//Краткое описание фирмы (пользователя)
             $table->timestamps();

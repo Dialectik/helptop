@@ -4,6 +4,8 @@ namespace App;
 
 use App\Service;
 use \Storage;
+use Carbon\Carbon;  //модуль конвертации дат
+use DateTime;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -151,7 +153,7 @@ class User extends Authenticatable
 		$this->removeAvatar();//удаление старого аватара перед заменой на новый
 		
 		$filename = str_random(10) . '.' . $image->extension();  //генерация имени картинки 
-		$image->storeAs('uploads', $filename);  //загрузка картинки в папку uploads и присвоение файлу картинки сгенерированного названия
+		$image->storeAs('uploads/users', $filename);  //загрузка картинки в папку uploads/users и присвоение файлу картинки сгенерированного названия
 		$this->avatar = $filename;  //присвоение картинки посту (присвоение картинки полю avatar в БД)
 		$this->save();  //сохранение записи в базе
 	}
@@ -161,7 +163,7 @@ class User extends Authenticatable
 	{
 		if($this->avatar != null)    //если аватарка была у пользователя
 		{
-			Storage::delete('uploads/' . $this->avatar);  //удаление старой картинки
+			Storage::delete('uploads/users/' . $this->avatar);  //удаление старой картинки
 		}
 	}
 	
@@ -173,7 +175,7 @@ class User extends Authenticatable
 			return '/img/no-avatar.png';  //если нет аватарки выводить картинку по умолчанию
 		}
 		
-		return '/uploads/' . $this->avatar;  //вывод аватарки на странице
+		return '/uploads/users/' . $this->avatar;  //вывод аватарки на странице
 	}
 	
 	//***ПЕРЕКЛЮЧАТЕЛЬ АДМИНА
@@ -227,6 +229,114 @@ class User extends Authenticatable
 		$this->delete();
 	}
     
+	//вывод Отчества из связанной таблицы Personal
+	public function getPatronymic()  {
+		return $this->Personal != null ? $this->Personal->patronymic : null;
+	}
+	//вывод Фамилии из связанной таблицы Personal
+	public function getLastName()  {
+		return $this->Personal != null ? $this->Personal->last_name : null;
+	}
+	//вывод Описания фирмы из связанной таблицы Personal
+	public function getDescription()  {
+		return $this->Personal != null ? $this->Personal->description : null;
+	}
+	//вывод Пола из связанной таблицы Personal
+	public function getSex()  {
+		if(isset($this->Personal->sex)){
+			$sex[0] = $this->Personal->sex;
+			switch ($sex[0]) {
+			    case 1:
+			        $sex[1] = "Женский";
+			        break;
+			    case 2:
+			        $sex[1] = "Мужской";
+			        break;
+			}
+		}else{
+			$sex[0] = null;
+			$sex[1] = "- выберите пол -";
+		}
+		return $sex;
+	}
+	//вывод Семейного положения из связанной таблицы Personal
+	public function getMaritalStatus()  {
+		if(isset($this->Personal->marital_status)){
+			$marital_status[0] = $this->Personal->marital_status;
+			switch ($marital_status[0]) {
+			    case 1:
+			        $marital_status[1] = "Женат/За мужем";
+			        break;
+			    case 2:
+			        $marital_status[1] = "Не в браке";
+			        break;
+			}
+		}else{
+			$marital_status[0] = null;
+			$marital_status[1] = "- Вы в браке? -";
+		}
+		return $marital_status;
+	}
+	//вывод Наличия детей из связанной таблицы Personal
+	public function getChildren()  {
+		if(isset($this->Personal->children)){
+			$children[0] = $this->Personal->children;
+			switch ($children[0]) {
+			    case 1:
+			        $children[1] = "Есть";
+			        break;
+			    case 2:
+			        $children[1] = "Нет";
+			        break;
+			}
+		}else{
+			$children[0] = null;
+			$children[1] = "- Есть дети? -";
+		}
+		return $children;
+	}
+	//вывод Наличия автомобиля из связанной таблицы Personal
+	public function getCar()  {
+		if(isset($this->Personal->car)){
+			$car[0] = $this->Personal->car;
+			switch ($car[0]) {
+			    case null:
+			        $car[1] = "- Не указано -";
+			        break;
+			    case 1:
+			        $car[1] = "Есть";
+			        break;
+			    case 2:
+			        $car[1] = "Нет";
+			        break;
+			}
+		}else{
+			$car[0] = null;
+			$car[1] = "- Не указано -";
+		}
+		return $car;
+	}
+	//вывод Номера телефона 
+	public function getPhone()  {
+		$phone = $this->phone;
+		if($phone){
+			$phone_output = "+38(".substr($phone, 0, 3).")".substr($phone, 3, 3)."-".substr($phone, 6, 2)."-".substr($phone, 8, 2);
+			return $phone_output;
+		}
+		return $phone;
+	}
+	
+    //Аксессор - изменяет формат даты для вывода на странице
+	public function getDateBirthday()
+	{
+		if(isset($this->Personal->date_birthday)){
+			$date_birthday_in = $this->Personal->date_birthday;
+			$date = new Carbon($date_birthday_in);
+			$dt = Carbon::parse($date);  //Разделить дату на компоненты
+			$date_birthday = array("year" =>  $dt->year, "month" =>  $dt->month, "day" => $dt->day);
+			return $date_birthday;
+		}
+	}
     
     
     

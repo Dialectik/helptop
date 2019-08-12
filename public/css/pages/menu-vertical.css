@@ -1,0 +1,104 @@
+﻿#menuVertical{width:100%;height:auto;z-index: 10;}
+    #menuVertical ul{
+        display:block;
+        width:100%;
+        height:auto;
+        margin:0px;
+        padding:0px;
+        list-style:none;
+        position:relative;
+        z-index: 10;
+    }
+        #menuVertical ul li{display:block; width:100%; height:auto; position:relative;}
+            #menuVertical ul li a{
+                position:relative;
+                display:block;
+                width:100%;
+                height:auto;
+                box-sizing:border-box;
+                font-size:13px;
+                text-transform:uppercase;
+                font-weight:bold;
+                color:#696763;
+                line-height:1.2em;
+                padding:10px 15px;
+                background:#FFFFFF;
+/*                border-top:1px solid #236A92;*/
+                text-decoration:none;
+                z-index: 10;
+            }
+            #menuVertical ul > li:first-child > a{border:0px;}
+            #menuVertical ul li a:hover, #menuVertical ul li:hover a{
+                background:#00FFFF;
+            }
+            #menuVertical ul li ul{
+                position:absolute;
+                top:0px;
+                left:100%;
+                display:none;
+                width:200px;
+                z-index: 10;
+            }
+            /*******ﮪ৻⠥젢�ส� ﰨ �夥� ********/
+            #menuVertical ul li:hover > ul{display:block;}
+                #menuVertical ul li ul li a{
+                    text-transform:none;
+                    padding:5px 20px;
+                }
+                    #menuVertical ul li ul li a:hover, #menuVertical ul li ul li:hover > a{
+                        background:#FFFFFF;
+                        color:#FE980F;
+                    }
+                    
+
+#menuVertical2{width:100%;height:auto;z-index: 10;}
+    #menuVertical2 ul{
+        display:block;
+        width:100%;
+        height:auto;
+        margin:0px;
+        padding:0px;
+        list-style:none;
+        position:relative;
+        z-index: 10;
+    }
+        #menuVertical2 ul li{display:block; width:100%; height:auto; position:relative;}
+            #menuVertical2 ul li a{
+                position:relative;
+                display:block;
+                width:100%;
+                height:auto;
+                box-sizing:border-box;
+                font-size:13px;
+                text-transform:uppercase;
+                font-weight:bold;
+                color:#696763;
+                line-height:1.2em;
+                padding:10px 15px;
+                background:#FFFFFF;
+/*                border-top:1px solid #236A92;*/
+                text-decoration:none;
+                z-index: 10;
+            }
+            #menuVertical2 ul > li:first-child > a{border:0px;}
+            #menuVertical2 ul li a:hover, #menuVertical2 ul li:hover a{
+                background:#00FFFF;
+            }
+            #menuVertical2 ul li ul{
+                position:absolute;
+                top:0px;
+                left:100%;
+                display:none;
+                width:200px;
+                z-index: 10;
+            }
+            /*******ﮪ৻⠥젢�ส� ﰨ �夥� ********/
+            #menuVertical2 ul li:hover > ul{display:block;}
+                #menuVertical2 ul li ul li a{
+                    text-transform:none;
+                    padding:5px 20px;
+                }
+                    #menuVertical2 ul li ul li a:hover, #menuVertical2 ul li ul li:hover > a{
+                        background:#FFFFFF;
+                        color:#FE980F;
+                    }

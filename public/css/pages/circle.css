@@ -1,0 +1,197 @@
+﻿/* Элементы ::after, ::before сильно искажают страницу */
+
+.t565__circle {
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 5px;
+    margin: 0 auto;
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+    background-color: #222;
+    border-radius: 100%;
+        border-top-left-radius: 100%;
+        border-top-right-radius: 100%;
+        border-bottom-right-radius: 100%;
+        border-bottom-left-radius: 100%;
+    border: 2px solid #fff;
+        border-top-color: rgb(255, 255, 255);
+        border-top-style: solid;
+        border-top-width: 2px;
+        border-right-color: rgb(255, 255, 255);
+        border-right-style: solid;
+        border-right-width: 2px;
+        border-bottom-color: rgb(255, 255, 255);
+        border-bottom-style: solid;
+        border-bottom-width: 2px;
+        border-left-color: rgb(255, 255, 255);
+        border-left-style: solid;
+        border-left-width: 2px;
+        border-image-outset: 0;
+        border-image-repeat: stretch;
+        border-image-slice: 100%;
+        border-image-source: none;
+        border-image-width: 1;
+}
+.t565__number {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    -moz-transform: translateY(-50%);
+        transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    color: #fff;
+}
+.t-name_md {
+    font-size: 20px;
+    line-height: 1.35;
+}
+.t-name {
+    font-family: 'Roboto',Arial,sans-serif;
+    font-weight: 600;
+    color: #000;
+}
+.t565__title {
+    margin-bottom: 6px;
+    margin-top: 10px;
+}
+.t-name_lg {
+    font-size: 22px;
+    line-height: 1.35;
+}
+.t565__descr {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.t-text_xs {
+    font-size: 15px;
+    line-height: 1.55;
+}
+.t-text {
+    font-family: 'Roboto',Arial,sans-serif;
+    font-weight: 300;
+    color: #000;
+}
+.t-container {
+    max-width: 1200px;
+}
+.t-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+        padding-left: 0px;
+    width: 100%;
+}
+div{
+    margin: 0;
+    	margin-top: 0px;
+        margin-bottom: 0px;
+    padding: 0;
+	    padding-top: 0px;
+	    padding-right: 0px;
+	    padding-bottom: 0px;
+	    padding-left: 0px;
+	border: 0;
+        border-top-color: currentcolor;
+        border-top-style: none;
+        border-top-width: 0px;
+        border-right-color: currentcolor;
+        border-right-style: none;
+        border-right-width: 0px;
+        border-bottom-color: currentcolor;
+        border-bottom-style: none;
+        border-bottom-width: 0px;
+        border-left-color: currentcolor;
+        border-left-style: none;
+        border-left-width: 0px;
+        border-image-outset: 0;
+        border-image-repeat: stretch;
+        border-image-slice: 100%;
+        border-image-source: none;
+        border-image-width: 1;
+}
+.t565__item {
+    position: relative;
+    padding-bottom: 30px;
+}
+.t565__mainblock {
+    margin: 0 auto;
+    	margin-top: 0px;
+		margin-right: auto;
+		margin-bottom: 0px;
+		margin-left: auto;
+}
+.t-width_8 {
+    max-width: 760px;
+}
+.t-width {
+    width: 100%;
+}
+
+*, ::after, ::before {
+    -webkit-box-sizing: content-box;
+    	box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    	box-sizing: content-box;
+    box-sizing: content-box;
+}
+.t565__col {
+    width: 50%;
+    text-align: right;
+}
+.t565__item:first-child .t565__line {
+    top: 10px;
+}
+.t565__line {
+    position: absolute;
+    width: 2px;
+    top: 0;
+    background: #222;
+        background-color: rgb(34, 34, 34);
+        background-position-x: 0%;
+        background-position-y: 0%;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-image: none;
+        background-size: auto;
+        background-origin: padding-box;
+        background-clip: border-box;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+        margin-top: 0px;
+        margin-right: auto;
+        margin-bottom: 0px;
+        margin-left: auto;
+}
+.t565__block {
+    padding-right: 56px;
+    padding-left: 0 !important;
+}
+.t565__flipped {
+    float: right !important;
+    text-align: left;
+}
+.t565__block-flipped {
+    padding-right: 0 !important;
+    padding-left: 56px;
+}
+
+
+
+
+

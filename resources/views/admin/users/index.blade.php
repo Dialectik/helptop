@@ -35,6 +35,7 @@
                   <th>ID</th>
                   <th>Имя</th>
                   <th>E-mail</th>
+                  <th>Статусы</th>
                   <th>Аватар</th>
                   <th>Действия</th>
                 </tr>
@@ -43,25 +44,51 @@
                 @foreach($users as $user)
 	                <tr>
 	                  <td>{{$user->id}}</td>
-	                  <td>{{$user->name}}</td>
+	                  <td><a href="{{ route('users.editstatus', $user->id) }}">{{$user->name}}</a></td>
 	                  <td>{{$user->email}}</td>
+	                  <td>
+	                  	<!--Админ-->
+	                  	@if($user->is_admin == 1)
+	                  		<a class="fa fa-key" title="Админ" href="{{ route('users.editstatus', $user->id) }}"></a>
+	                  	@endif
+	                  	<!--Модератор-->
+	                  	@if($user->is_moder == 1)
+	                  		<a class="fa fa-camera" title="Модератор" href="{{ route('users.editstatus', $user->id) }}"></a>
+	                  	@endif
+	                  	<!--Агент-->
+	                  	@if($user->is_agent == 1)
+	                  		<a class="fa fa-user" title="Агент" href="{{ route('users.editstatus', $user->id) }}"></a>
+	                  	@endif
+	                  	<!--Забанен-->
+	                  	@if($user->status_ban == 1)
+	                  		<a class="fa fa-ban" title="Забанен" href="{{ route('users.editstatus', $user->id) }}"></a>
+	                  	@endif
+	                  	<!--Активирован-->
+	                  	@if($user->activated == 1)
+	                  		<a class="fa fa-flag-o" title="Активирован" href="{{ route('users.editstatus', $user->id) }}"></a>
+	                  	@endif
+	                  </td>
 	                  <td>
 	                    <img src="{{$user->getImage()}}" alt="" class="img-responsive" width="150">
 	                  </td>
-	                  <td><a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil"></a> 
-		                  
+	                  <td>
+	                  	  <a href="{{route('users.edit', $user->id)}}" class="fa fa-pencil" title="Изменить профиль"></a>
 		                  <form method="POST" action="{{ route('users.destroy', $user->id) }}">
 			  				@csrf
 			                  <input type="hidden" name="_method" value="DELETE">
-			                  <button onclick="return confirm('are you sure?')" type="submit" class="delete">
+			                  <button title="Удалить профиль" onclick="return confirm('Are you sure? Точно видалити?')" type="submit" class="delete">
 			                   	<i class="fa fa-remove"></i>
 			                  </button>
 		                  </form>
+		                  <a href="{{route('ratingusers.edit', $user->id)}}" class="fa fa-heart" title="Рейтинг пользователя"></a>
+		                  <a href="{{route('scoreusers.show', $user->id)}}" class="fa fa-credit-card" title="Счет пользователя"></a>
+		                  
+		                  
 	                  </td>
 	                </tr>
                 @endforeach
 
-                </tfoot>
+                </tbody>
               </table>
             </div>
             <!-- /.box-body -->

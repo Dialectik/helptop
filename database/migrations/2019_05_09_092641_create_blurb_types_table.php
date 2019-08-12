@@ -17,6 +17,8 @@ class CreateBlurbTypesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');						//Название вида рекламы
             $table->string('slug');							//Слаг названия рекламы
+            $table->string('type_blurb')->nullable();		//Рекламный пакет (Старт, Middle, Лидер)
+            $table->integer('period_blurb')->nullable();	//Период предоставления рекламы
             $table->tinyInteger('code');					//Код вида рекламы
             $table->integer('blurb_price')->nullable();		//Стоимость вида рекламы
             $table->timestamps();

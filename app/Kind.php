@@ -9,7 +9,7 @@ class Kind extends Model
 {
     use Sluggable;
     
-    protected $fillable = ['title', 'code', 'section_id', 'category_id'];//указываем массив каких данных сохранять в таблицу при создании нового вида услуг
+    protected $fillable = ['title', 'code', 'section_id', 'category_id', 'keywords', 'description'];//указываем массив каких данных сохранять в таблицу при создании нового вида услуг
     
     //РОДИТЕЛЬСКАЯ связь - создание связи вида услуг с разделом
     public function section()

@@ -22,6 +22,7 @@ class CreateBasketsTable extends Migration
             $table->integer('user_seller_id');       			//ID продавца
             $table->integer('user_buyer_id');       			//ID покупателя
             $table->tinyInteger('bidding_type');   				//ID Типа торгов
+            $table->string('initiator')->nullable();			//ID Инициатора сделки (нажавшего кнопку)
             $table->timestamps();
         });
     }
